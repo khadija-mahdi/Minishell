@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:51:52 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/02/22 18:44:09 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/02/25 12:01:37 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,21 @@
 #  define BUFFER_SIZE 434
 # endif
 
-// typedef struct s_data{
-
-// }				t_data;
+typedef struct node
+{
+	int input_file;
+	char *commands;
+	char **arguments;
+	int output_file;
+}				m_node;
 
 char	*get_next_line(int fd);
 int		ft_printf(const char *format, ...);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_bzero(void *s, size_t n);
+int		ft_words_count(const char *s, char c);
+int		ft_isdigit(int c);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
@@ -50,8 +56,9 @@ void	exit_msg(char *msg, int i);
 void	free_list(char **list);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
 void	path(char *paths, char **full_path, char *av);
-char *get_command_path(char *input, char **env);
-char *get_path(char **env, char *input);
-void pwd_command(char *input);
+char 	*get_command_path(char *input, char **env);
+char	 *get_path(char **env, char *input);
+void 	builtins_command(m_node *node, char *input);
+int		ft_atoi(const char *str);
 
 #endif

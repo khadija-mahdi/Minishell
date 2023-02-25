@@ -13,12 +13,15 @@ $(RM) = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ) 
-	$(CC) $(CFLAGS) $(OBJ) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -lreadline -fsanitize=address -g   -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
+
+push: fclean
+	git add . && git commit -m "push" && git push
 
 re: fclean all

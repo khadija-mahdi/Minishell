@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 18:11:07 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/02/22 18:45:02 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/02/23 12:14:09 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,12 @@ char *get_path(char **env , char *input)
 // get command path return full path that is had the pathe of command !!
 // paths == the env after "PATH="
 // my path = env with "path="
+
+
+//echo
+// cd
+//pwd
+//export--> x
+//unset--> x
+//env
+//exit --> x
