@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/02/25 18:56:44 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/01 14:51:04 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void tty(void)
 		}
 		add_history(line);
 		parse(line, &list);
-		printf_list(list);
+		// printf_list(list);
 		exec(list);
 		ft_lstclear(&list, clear_node);
 		free(line);

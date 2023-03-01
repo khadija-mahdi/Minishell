@@ -87,5 +87,4 @@ int	main(int ac, char **av, char **env)
 	print_name();
 	get_env(env);
 	tty();
-	// if (ft_strcmp())
 }
