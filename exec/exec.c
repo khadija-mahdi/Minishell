@@ -54,13 +54,6 @@ void env_command(m_node *node)
 	if (ft_strcmp(node->command ,"env") == 0)
 	{
 		env = get_env(NULL);
-		while (env[index])
-			index++;
-		if (index != 36)
-		{
-			printf("env: no such file or directory\n");
-			return ;
-		}
 		if (!node->arguments[1])
 		{
 			while(*env)
@@ -84,8 +77,8 @@ void echo_command(m_node *node)
 		else
 		{
 			i = 1;
-			if(ft_strncmp(node->arguments[1], "-n",2) == 0)
-				i = 2;
+			while(ft_strncmp(node->arguments[i], "-n",2) == 0)
+				i++;
 			while(node->arguments[i])
 				printf("%s ", node->arguments[i++]);
 			if(ft_strncmp(node->arguments[1], "-n",2) != 0)
@@ -103,28 +96,6 @@ void pwd_command(m_node *node)
 	}
 }
 
-// char *get_name(char **env , int index)
-// {
-// 	char *env_name;
-// 	int i ;
-// 	index = 0;
-
-// 	env_name = malloc(ft_strlen(env[index]) + 1);
-// 	while(env)
-// 	{
-// 	while(env[index])
-// 	{
-// 		i = 0;
-// 		if(env[index] && !ft_strcmp(env[index], "="))
-// 			break;
-// 		env_name[i] = env[index][i];
-// 		i++;
-// 		index ++;
-// 	}
-// 	env_name[i] ='\0';
-// 	return( env_name);
-// 	}
-// }
 void cd_command(m_node *node)
 {
 	char *path;
@@ -135,7 +106,7 @@ void cd_command(m_node *node)
 		if(!node->arguments[1])
 			chdir(getenv("HOME"));
 		else
-		{
+		{			
 			struct stat sb;
 			if (stat(node->arguments[1], &sb) == 0 && S_ISDIR(sb.st_mode))
 				chdir(node->arguments[1]);
@@ -149,19 +120,36 @@ void unset_command(m_node *node)
 {
 	char **env;
 	int len;
+	int i;
 
 	env = get_env(NULL);
-	len = ft_strlen(node->arguments[1]);
 	if (ft_strcmp(node->command ,"unset") == 0)
 	{
 		while(*env)
 		{
-			if(!ft_strncmp(*env ,node->arguments[1],len ) && (*env)[len] == '=')
-				*env = NULL;
+			i = 1;
+			while (ft_strncmp(*env, node->arguments[i], ft_strlen(*env)) == 0)
+			{
+				printf("unset: '%s' : not a valid identifier\n" ,node->arguments[i]);
+				i++;
+			}
+			while(node->arguments[i])
+			{
+				if(!ft_strncmp(*env ,node->arguments[i], ft_strlen(node->arguments[i])) && (*env)[ft_strlen(node->arguments[i])] == '=')
+				{
+					*env  = *env + 1;
+					env++;
+				}
+				else
+					i++;
+			}
 			env++;
 		}
-		printf("%s unset\n", node->arguments[1]);
 	}
+}
+void export_command(m_node *node)
+{
+
 }
 
 void	exec(t_list *list)
