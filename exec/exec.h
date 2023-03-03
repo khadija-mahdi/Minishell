@@ -16,7 +16,17 @@
 # include <termios.h>
 # include <unistd.h>
 
-int ft_strcmp(char *s1, char *s2);
+int 	ft_strcmp(char *s1, char *s2);
+void	exit_msg(char *msg, int i);
+void	exit_command(m_node *node);
+void	env_command(m_node *node);
+void 	echo_command(m_node *node);
+void 	cd_command(m_node *node);
+void 	unset_command(m_node *node);
+void	exec(t_list *list);
+void 	pwd_command(m_node *node);
+void	ft_swap(int *a, int *b);
+void export_command(m_node *node);
 
 
 # endif

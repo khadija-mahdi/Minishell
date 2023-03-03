@@ -1,78 +1,34 @@
-
-
-int main() {
-    char* input;
-    while ((input = readline("> ")) != NULL) {
-        if (strcmp(input, "exit") == 0) {
-            free(input);
-            exit(0);
-        } else if (strncmp(input, "exit ", 5) == 0) {
-            char* endptr;
-            long status = strtol(input + 5, &endptr, 10);
-            if (errno != ERANGE && endptr != input + 5 && *endptr == '\0') {
-                free(input);
-                exit((int)status);
-            }
-        }
-        printf("You entered: %s\n", input);
-        add_history(input);
-        free(input);
-    }
-    return 0;
-}
-
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-extern char **environ;
+void sort_strings(char **strings, int num_strings) {
+    int i, j, min_index;
+    char *temp;
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s VARIABLE=VALUE\n", argv[0]);
-        exit(1);
-    }
-
-    char *var = argv[1];
-    char *value = strchr(var, '=');
-
-    if (value == NULL) {
-        printf("Invalid argument: %s\n", var);
-        exit(1);
-    }
-
-    *value++ = '\0';
-
-    // Find the variable in the environment
-    char **env = environ;
-    while (*env != NULL) {
-        if (strncmp(*env, var, strlen(var)) == 0 && (*env)[strlen(var)] == '=') {
-            break;
+    for (i = 0; i < num_strings - 1; i++) {
+        min_index = i;
+        for (j = i + 1; j < num_strings; j++) {
+            if (strcmp(strings[j], strings[min_index]) < 0) {
+                min_index = j;
+            }
         }
-        env++;
+        if (min_index != i) {
+            temp = strings[i];
+            strings[i] = strings[min_index];
+            strings[min_index] = temp;
+        }
     }
+}
 
-    if (*env == NULL) {
-        // Variable not found in the environment, so we need to add it
-        int num_env = env - environ;
-        environ = realloc(environ, sizeof(char *) * (num_env + 2));
-        environ[num_env] = strdup(var);
-        environ[num_env + 1] = NULL;
-    } else {
-        // Variable already exists in the environment, so we need to modify it
-        free(*env);
-        *env = strdup(var);
-    }
+int main() {
+    char *strings[] = {"banana", "apple", "pear", "orange", "grape"};
+    int num_strings = sizeof(strings) / sizeof(strings[0]);
 
-    for (char **env = environ; *env != NULL; env++) {
-        printf("%s\n", *env);
+    sort_strings(strings, num_strings);
+
+    for (int i = 0; i < num_strings; i++) {
+        printf("%s\n", strings[i]);
     }
 
     return 0;
 }
-
-
-
-
-
-

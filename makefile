@@ -12,12 +12,16 @@ src = main.c \
 	parsing/garbage.c \
 	parsing/paths.c\
 	parsing/Signals.c \
-	exec/exec.c \
 	Utils/equals.c \
 	Utils/random.c \
 	Utils/int_utils.c \
 	Utils/status.c \
-	Utils/Strings.c parsing/env.c 
+	Utils/Strings.c parsing/env.c\
+	exec/exec.c \
+	exec/implement_builtins/implement_builtins.c\
+	exec/exuc_utlis.c\
+	exec/implement_builtins/builtins.c\
+
 
 obj = ${src:.c=.o}
 
