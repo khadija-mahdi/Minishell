@@ -27,6 +27,7 @@ void	exec(t_list *list);
 void 	pwd_command(m_node *node);
 void	ft_swap(int *a, int *b);
 void export_command(m_node *node);
+void print_list(char **str);
 
 
 # endif

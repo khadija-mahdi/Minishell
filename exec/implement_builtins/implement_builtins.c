@@ -3,133 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   implement_builtins.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khadija-mahdi <khadija-mahdi@student.42    +#+  +:+       +#+        */
+/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:27:03 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/03 22:44:44 by khadija-mah      ###   ########.fr       */
+/*   Updated: 2023/03/04 16:46:53 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void unset_command(m_node *node)
-{
-	char **env;
-	int len;
+ void add_export_var(m_node *node, char ac , int len, char **export)
+ {
 	int i;
-	char **va_unset;
 
-	env = get_env(NULL);
-	if (ft_strcmp(node->command ,"unset") == 0)
+	i = 1;
+	if(ac == 1)
 	{
-		while(*env)
+		export[len] = NULL;
+
+	}
+	else
+	{
+		while(i < ac)
 		{
-			i = 1;
-			while (ft_strncmp(*env, node->arguments[i], ft_strlen(*env)) == 0)
-			{
-				printf("unset: '%s' : not a valid identifier\n" ,node->arguments[i]);
-				i++;
-			}
-			while(node->arguments[i])
-			{
-				if(!ft_strncmp(*env ,node->arguments[i], ft_strlen(node->arguments[i])) && (*env)[ft_strlen(node->arguments[i])] == '=')
-				{	
-					va_unset = env + 1;
-					while(*va_unset)
-					{
-						*(va_unset - 1)  = *va_unset;
-						va_unset++;
-					}
-				}
-				else
-					i++;
-				*(va_unset - 1) = NULL;
-				
-			}
-			env++;
+			export[len] = node->arguments[i];
+			i++;
+			len++;
+		}
+		export[len] = NULL;
+	}
+	if (ft_strcmp(node->command ,"export") == 0)
+	{
+		while(*export)
+		{
+			printf("%s\n", *export);
+			export++;
 		}
 	}
-}
+ }
 
-char **get_export(char **env, int len) 
+
+void sorted_list(char **export, int j)
+{
+	char *temp;
+	if (strcmp(export[j], export[j + 1]) > 0) 
+	{
+        temp = export[j];
+        export[j] = export[j + 1];
+        export[j + 1] = temp;
+    }
+}
+char **get_export(m_node *node, char **env, int len, int ac) 
 {
     int i;
 	int j;
     char *temp;
 	char **export;
 
+	export =  malloc((len + ac + 1) * sizeof(char *));
 	i = 0;
-    while (i < len - 1) 
+	while(i < len)
+	{
+		export[i] = env[i];
+		i++;
+	}
+	i = 0;
+    while (i < (len + ac) - 1) 
 	{
 		j = 0;
 		while (j < len - i - 1)
 		{
-            if (strcmp(env[j], env[j + 1]) > 0) {
-                temp = env[j];
-                env[j] = env[j + 1];
-                env[j + 1] = temp;
-            }
+            sorted_list(export, j);
 			j++;
 		}
 		i++;
     }
-	export = env;
+	add_export_var(node, ac,len, export);
 	return (export);
 }
-
 
 void export_command(m_node *node)
 {
 	char **env;
 	int len;
 	char **export;
-	char *name;
-	char *value;
-	int start = 0;
-	char **new_env;
+	// char **env;
 	int i = 0;
+	int ac = 1;
 
+	while(node->arguments[ac])
+		ac++;
 	len = 0;
 	env = get_env(NULL);
     while (env[len])
         len++;
-	export = get_export(env, len);
 	if (ft_strcmp(node->command ,"export") == 0)
 	{
-		if(!node->arguments[1])
-		{
-			while(*export)
-			{
-				printf("%s\n", *export);
-				export++;
-			}
-		}
-		else
-		{
-			while (node->arguments[1][start] != '=' && node->arguments[1][start])
-				start++;
-			
-			name = ft_substr(node->arguments[1], 0, start);
-			value = ft_substr(node->arguments[1] , start , ft_strlen(node->arguments[1]));
-			// printf("name --> %s value ---> %s\n" ,name , value);
-			if(ft_strcmp(node->arguments[1], "=")== 0)
-			{
-				new_env = malloc((len + 2) * sizeof(char *));
-				while(i < len)
-				{
-					new_env[i] = env[i];
-					i++;
-				}
-				new_env[len] = node->arguments[1];
-    			new_env[len + 1] = NULL;
-				env = new_env;
-				free_list(new_env);
-			}
-		}	
+		export = get_export(node,env, len, ac);
+				
 	}
-
 }
-
 
 void	exec(t_list *list)
 {

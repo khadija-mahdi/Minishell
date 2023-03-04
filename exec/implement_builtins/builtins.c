@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:37:32 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/03 15:37:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/04 12:10:19 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void env_command(m_node *node)
 	if (ft_strcmp(node->command ,"env") == 0)
 	{
 		env = get_env(NULL);
+		if (env == NULL)
+			printf("hiiii\n");
 		if (!node->arguments[1])
 		{
 			while(*env)
