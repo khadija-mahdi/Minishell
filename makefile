@@ -20,8 +20,13 @@ src = main.c \
 	exec/exec.c \
 	exec/implement_builtins/implement_builtins.c\
 	exec/exuc_utlis.c\
-	exec/implement_builtins/builtins.c\
-	exec/implement_builtins/imple_unset.c\
+	exec/implement_builtins/echo.c\
+	exec/implement_builtins/unset.c\
+	exec/implement_builtins/export.c\
+	exec/implement_builtins/exit.c\
+	exec/implement_builtins/env.c\
+	exec/implement_builtins/cd_pwd.c\
+
 
 
 obj = ${src:.c=.o}

@@ -23,3 +23,9 @@ void	ft_swap(int *a, int *b)
 	*a = *b;
 	*b = temp;
 }
+int	f_isdigit(int c)
+{
+	if (c >= '0' && c <= '8')
+		return (1);
+	return (0);
+}

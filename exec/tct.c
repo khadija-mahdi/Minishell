@@ -1,34 +1,68 @@
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-void sort_strings(char **strings, int num_strings) {
-    int i, j, min_index;
-    char *temp;
-
-    for (i = 0; i < num_strings - 1; i++) {
-        min_index = i;
-        for (j = i + 1; j < num_strings; j++) {
-            if (strcmp(strings[j], strings[min_index]) < 0) {
-                min_index = j;
-            }
-        }
-        if (min_index != i) {
-            temp = strings[i];
-            strings[i] = strings[min_index];
-            strings[min_index] = temp;
-        }
+void add_string(char ***ptr, char *str, int len) {
+    char **new_ptr = malloc((len + 1) * sizeof(char*));  // Allocate space for new pointer
+    for (int i = 0; i < len; i++) {
+        new_ptr[i] = (*ptr)[i];  // Copy old strings
     }
+    new_ptr[len] = malloc(strlen(str) + 1);  // Allocate space for new string
+    strcpy(new_ptr[len], str);  // Copy new string
+    free(*ptr);  // Free old pointer
+    *ptr = new_ptr;  // Set new pointer
 }
 
 int main() {
-    char *strings[] = {"banana", "apple", "pear", "orange", "grape"};
-    int num_strings = sizeof(strings) / sizeof(strings[0]);
-
-    sort_strings(strings, num_strings);
-
-    for (int i = 0; i < num_strings; i++) {
-        printf("%s\n", strings[i]);
+    char **ptr = malloc(2 * sizeof(char*));  // Allocate space for two strings
+    ptr[0] = "Hello";
+    ptr[1] = "world";
+    int len = 2;
+    add_string(&ptr, "!", len);  // Add new string
+    len++;
+    for (int i = 0; i < len; i++) {
+        printf("%s ", ptr[i]);
     }
-
+    free(ptr[2]);  // Free memory for new string
+    free(ptr);  // Free memory for double pointer
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Allocate memory for the new string using malloc() function.
+2. Copy the contents of the new string into the allocated memory using the strcpy() function.
+3. Add the new string to the double pointer by assigning the address of the allocated memory to the next available element in the double pointer.

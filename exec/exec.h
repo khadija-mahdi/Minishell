@@ -16,6 +16,8 @@
 # include <termios.h>
 # include <unistd.h>
 
+
+
 int 	ft_strcmp(char *s1, char *s2);
 void	exit_msg(char *msg, int i);
 void	exit_command(m_node *node);
@@ -26,8 +28,12 @@ void 	unset_command(m_node *node);
 void	exec(t_list *list);
 void 	pwd_command(m_node *node);
 void	ft_swap(int *a, int *b);
+void 	export_only(m_node *node);
+long long ft_my_atoi(const char *nptr);
 void export_command(m_node *node);
 void print_list(char **str);
+int	f_isdigit(int c);
+char	**get_export(char **env);
 
 
 # endif

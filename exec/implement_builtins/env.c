@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 16:03:18 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/10 16:29:14 by kmahdi           ###   ########.fr       */
+/*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
+/*   Updated: 2023/03/16 02:20:37 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../exec.h"
 
-char	*ft_strdup(const char *s1)
+void env_command(m_node *node)
 {
-	size_t	len;
-	char	*dst;
-
-	len = ft_strlen(s1) + 1;
-	dst = malloc(len * sizeof(char));
-	if (!dst)
-		return (NULL);
-	ft_memcpy(dst, s1, len);
-	return (dst);
+	char **env;
+	
+	if (ft_strcmp(node->command ,"env") == 0)
+	{
+		env = get_env(NULL);
+		if (env == NULL)
+			printf("hiiii\n");
+		if (!node->arguments[1])
+		{
+			while(*env)
+			{
+				printf("%s\n", *env);
+				env++;
+			}
+		}
+		else
+			printf("env: %s: No such file or directory\n", node->arguments[1]);
+	}
 }
