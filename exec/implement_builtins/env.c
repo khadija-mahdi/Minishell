@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/16 02:20:37 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/19 07:46:47 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void env_command(m_node *node)
 {
 	char **env;
+	int i = 0;
 	
 	if (ft_strcmp(node->command ,"env") == 0)
 	{
@@ -23,12 +24,10 @@ void env_command(m_node *node)
 			printf("hiiii\n");
 		if (!node->arguments[1])
 		{
-			while(*env)
-			{
-				printf("%s\n", *env);
-				env++;
-			}
-		}
+			i = 0;
+			while(env[i])
+				printf("%s\n", env[i++]);
+		}	
 		else
 			printf("env: %s: No such file or directory\n", node->arguments[1]);
 	}

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:37:32 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/16 02:11:16 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/18 17:06:09 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void echo_command(m_node *node)
 				i++;
 			while(node->arguments[i])
 				printf("%s ", node->arguments[i++]);
-			if(ft_strncmp(node->arguments[1], "-n",2) != 0)
+			if((node->arguments[1][0] != '-' && !is_newline(node->arguments[1])))
 				printf("\n");
 		}
 	}

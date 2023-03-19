@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Signals.c                                          :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 15:21:33 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/19 06:21:13 by kmahdi           ###   ########.fr       */
+/*   Created: 2023/03/18 16:53:24 by kmahdi            #+#    #+#             */
+/*   Updated: 2023/03/19 09:28:11 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(0, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-void	handle_sigint_n_chld(int sig)
-{
-	(void)sig;
-	write(0, "\n", 1);
+#include "../exec.h"
 
-}
-
-void	handle_sigquit(int sig)
+void builtins(m_node *node)
 {
-	(void)sig;
-	exit(0);
-}
-void	here_doc_signal(int sig)
-{
-	(void)sig;
-	exit(M_SIG_INT);
+	char	**env;
+	char	**export;
+	
+	env = get_env(NULL);
+	export = get_export(NULL);
+	exit_command(node);
+	cd_command(node);
+	pwd_command(node);
+	echo_command(node);
+	export_only(node, export, env);
+	unset_command(node, env);
+	// unset_command(node, export);
+	env_command(node);
 }

@@ -17,12 +17,31 @@ void	exit_msg(char *msg, int i)
 	printf("%s", msg);
 	exit(i);
 }
-void	ft_swap(int *a, int *b)
+
+void sorted_list(char **export, int len)
 {
-	int temp = *a;
-	*a = *b;
-	*b = temp;
+	char *temp;
+	int i;
+	int j;
+	
+	i = 0;
+    while (i < len  - 1) 
+	{
+		j = 0;
+		while (j < len - i - 1)
+		{
+			if (strcmp(export[j], export[j + 1]) > 0) 
+			{
+				temp = export[j];
+				export[j] = export[j + 1];
+				export[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
+
 int	f_isdigit(int c)
 {
 	if (c >= '0' && c <= '8')

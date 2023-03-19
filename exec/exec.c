@@ -1,10 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
+/*   Updated: 2023/03/19 08:38:54 by kmahdi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
+
+char	**get_export(char **p)
+{
+	static char **export;
+	int i = 0;
+	if (p != NULL)
+	{
+		export = malloc((size(p) + 1) * sizeof(char *));
+		while (p[i])
+		{
+			export[i] = ft_strdup(p[i]);
+			i++;
+		}
+		export[i] = NULL;
+	}
+	return (export);
+}
 
 void	exec(t_list *list)
 {
-	char **env;
-	
-	
 	if (list == NULL)
 		return ;
 	m_node *node = (m_node *)list->content;
@@ -12,14 +38,7 @@ void	exec(t_list *list)
 		return ;
 	if(!node->command || !node->arguments[0])
 		return ;
-	env = get_env(NULL);
-	// if(ft_strcmp(node->command ,"exit")
-		exit_command(node);
-	unset_command(node);
-	cd_command(node);
-	env_command(node);
-	export_command(node);
-	export_only(node);
-	echo_command(node);
-	pwd_command(node);
+	builtins(node);
+	pipe_exuc(node);
+	// handle_signal();
 }

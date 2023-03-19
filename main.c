@@ -85,6 +85,9 @@ int	main(int ac, char **av, char **env)
 	t_list *list = NULL;
 	m_node *node;
 	print_name();
+	get_export(env);
 	get_env(env);
+	// signal(SIGINT, handle_sigint);
+	// signal(SIGQUIT, SIG_IGN);
 	tty();
 }

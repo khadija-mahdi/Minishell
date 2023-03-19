@@ -75,10 +75,8 @@ char	*get_path(void);
 char	*get_fullpath(char *s);
 void	print_name(void);
 int	handle_syntax(char *line);
-int	is_builtin(char *s);
 void	handle_sigquit(int sig);
 int	is_equal(char *s, char *s2);
-// void	echo(char **arguments);
 void	print_working_directory(void);
 int	is_complete(char *line);
 char	*copy_variable_value(char *dst, char *src, int *index);
@@ -100,4 +98,6 @@ char	*random_string(int len);
 int	get_exit_status(void);
 void	set_exit_status(int status_val);
 char	*m_safe_strjoin(char *s1, char *s2, int free_mode);
+void sigint_ctrl_C(int sig);
+char	**get_export(char **p);
 #endif

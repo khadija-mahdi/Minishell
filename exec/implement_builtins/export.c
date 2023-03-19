@@ -6,131 +6,155 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/16 03:51:25 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/19 09:04:54 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void sorted_list(char **export, int len)
+void	add_new_export(char **export, char **old_export, char **str)
 {
-	char *temp;
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = 0;
-    while (i < len  - 1) 
+	j = 1;
+	while (old_export[i])
 	{
-		j = 0;
-		while (j < len - i - 1)
-		{
-			if (strcmp(export[j], export[j + 1]) > 0) 
-			{
-				temp = export[j];
-				export[j] = export[j + 1];
-				export[j + 1] = temp;
-			}
-			j++;
-		}
+		export[i] = ft_strdup(old_export[i]);
 		i++;
 	}
+	sorted_list(export, size(old_export));
+	while (str[j])
+		export[i++] = ft_strdup(str[j++]);
+	export[i] = NULL;
 }
 
-char	**get_export(char **env)
+char	**get_new_export(char **old_export, char **str)
 {
-	static char **export;
-	int i = 0;
-	if (env != NULL)
+	char	**export;
+
+	if (old_export != NULL && !str[1])
 	{
-		export = malloc((size(env) + 1) * sizeof(char *));
-		while (env[i])
-		{
-			export[i] = ft_strdup(env[i]);
-			i++;
-		}
-		export[i] = NULL;
+		export = get_export(NULL);
+		sorted_list(export, size(old_export));
 	}
-	sorted_list(export,size(env));
+	else if (old_export != NULL && str[1])
+	{
+		export = malloc((size(old_export) + size(str)) * sizeof(char *));
+		add_new_export(export, old_export, str);
+	}
 	return (export);
 }
 
-void export_only(m_node *node)
+void	add_new_env(char **env, char **old_env, char **str)
 {
-	
-	if (ft_strcmp(node->command ,"export") == 0 && !node->arguments[1])
-	{
-		char **export;
-		char **env;
-		
-		env = get_env(NULL);
-		export = get_export(env);
-		if (export == NULL)
-			exit_msg("hiiii\n", 7);
-		while(*export)
-		{
-			printf("declare -x %s\n", *export);
-			export++;
-		}
-	}
-}
+	int	i;
+	int	j;
+	int	k;
 
-void add_string(char **ptr, char *str, int len)
-{
-	char **new_ptr;
-	int i;
-	
-    new_ptr = malloc((len + 1) * sizeof(char*));  // Allocate space for new pointer
 	i = 0;
-    while ( i < len)
+	k = 1;
+	while (old_env[i])
 	{
-        new_ptr[i] = (*ptr)[i];  // Copy old strings
+		env[i] = ft_strdup(old_env[i]);
 		i++;
-    }
-    new_ptr[len] = malloc(ft_strlen(str) + 1);  // Allocate space for new string
-    strcpy(new_ptr[len], str);  // Copy new string
-    free(*ptr);  // Free old pointer
-    *ptr = new_ptr;  // Set new pointer
+	}
+	while (str[k])
+	{
+		j = 0;
+		while (str[k][j])
+		{
+			if (str[k][j] == '=')
+			{
+				env[i++] = ft_strdup(str[k]);
+			}
+			j++;
+		}
+		k++;
+	}
+	env[i] = NULL;
 }
 
-void export_command(m_node *node)
+char	**get_new_env(char **old_env, char **str)
 {
-	if (ft_strcmp(node->command ,"export") == 0 && node->arguments[1])
-	{
-		char **env;
-		char **export;
-		char **new ;
-		int i;
-		
-		int ac = size(node->arguments);
-		int len_env = size(env);
-		i = 1;
+	char	**env;
 
+	if (old_env != NULL && !str[1])
 		env = get_env(NULL);
-		len_env = size(env);
-		char **ptr = malloc(ac * sizeof(char*));  // Allocate space for new arguments
-		
-		while(node->arguments[i])
+	else if (old_env != NULL && str[1])
+	{
+		env = malloc((size(old_env) + size(str)) * sizeof(char *));
+		add_new_env(env, old_env, str);
+	}
+	return (env);
+}
+
+int get_value_len(char **str)
+{
+	int	len;
+	int i;
+
+	i = 1;
+	len = 0;
+	while(str[i])
+	{
+		if(str[i][len] && str[i][len] != '=')
+			len++;
+		else
+			i++;
+	}
+	return(len);
+}
+
+// void change_env_value(char **env, char **str)
+// {
+// 	int	i;
+// 	int len;
+
+// 	i = 1;
+// 	len = get_value_len(str);
+
+// 	while(*env)
+// 	{
+// 		printf("len ==> %d\n en[len] ===> %s\n str[i] ===> %s\n", len, (*env), str[i]);
+// 		while(str[i])
+// 		{
+// 			if(!ft_strncmp(*env ,str[i], len) && (*env)[len + 1] == '=')
+// 			{	
+// 				printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				
+// 			}
+// 			else
+// 				i++;
+// 		}
+// 		env++;
+// 	}
+// }
+
+void	export_only(m_node *node, char	**old_export, char	**old_env)
+{
+	int		i;
+	char	**export;
+	char	**env;
+
+	if (ft_strcmp(node->command, "export") == 0)
+	{
+		i = 0;
+		env = get_new_env(old_env, node->arguments);
+		export = get_new_export(old_export, node->arguments);
+		if (export == NULL || export == NULL)
+			exit_msg("env dosn't exict\n", 7);
+		while (export[i] && !node->arguments[1])
 		{
-			add_string(&env, node->arguments[i], len_env);
+			printf("declare -x %s\n", export[i]);
 			i++;
 		}
-		// if (ft_strcmp(node->command ,"export") == 0)
-		// {
-		// 	export = get_export(env);
-		// 	if (!node->arguments[1])
-		// 	{
-		// 		while (*export)
-		// 		{
-		// 			printf("%s\n", *export);
-		// 			export++;
-		// 		}
-		// 	}
-					
-		// }
+		get_export(export);
+		get_env(env);
+		// change_env_value(env, node->arguments);
+		// change_env_value(export, node->arguments);
+
+		
 	}
 }
-
-// void export_only(m_node *node)
-// {
-	
-// }

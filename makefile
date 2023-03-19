@@ -26,6 +26,10 @@ src = main.c \
 	exec/implement_builtins/exit.c\
 	exec/implement_builtins/env.c\
 	exec/implement_builtins/cd_pwd.c\
+	exec/implement_builtins/builtins.c\
+	exec/pipes/pipe.c\
+	exec/pipes/piping.c\
+
 
 
 
