@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: khadija-mahdi <khadija-mahdi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 09:04:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/20 02:51:34 by khadija-mah      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,30 +107,54 @@ int get_value_len(char **str)
 	return(len);
 }
 
-// void change_env_value(char **env, char **str)
-// {
-// 	int	i;
-// 	int len;
+char **get_name(char **str)
+{
+	char **name;
+	int start;
+	int i;
+	int j;
 
-// 	i = 1;
-// 	len = get_value_len(str);
+	i = 1;
+	j = 0;
+	if(str)
+	{
+		name = malloc(size(str) + sizeof(char *));
+		
+		while(str[i])
+		{
+			start = 0;
+			while(str[i][start] != '=' && str[i][start])
+				start++;
+			name[j] = ft_substr(str[i], 0, start);
+			i++;
+			j++;
+		}
+		name[j] = NULL;
+	}
+	return (name);
+}
 
-// 	while(*env)
-// 	{
-// 		printf("len ==> %d\n en[len] ===> %s\n str[i] ===> %s\n", len, (*env), str[i]);
-// 		while(str[i])
-// 		{
-// 			if(!ft_strncmp(*env ,str[i], len) && (*env)[len + 1] == '=')
-// 			{	
-// 				printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-				
-// 			}
-// 			else
-// 				i++;
-// 		}
-// 		env++;
-// 	}
-// }
+void is_exist_env(char **env, char **str)
+{
+	int i;
+	int j = 0;
+	char **name = get_name(str);
+
+	i = 0;
+	while(env[i])
+	{
+		j = 0;
+		while(name[j])
+		{
+			if(ft_strncmp(env[i], name[j], ft_strlen(name[j])) == 0)
+				printf("hello i'm  here\n");
+			else
+				printf("no no no\n");
+				j++;
+		}
+		i++;
+	}
+}	
 
 void	export_only(m_node *node, char	**old_export, char	**old_env)
 {
@@ -152,9 +176,6 @@ void	export_only(m_node *node, char	**old_export, char	**old_env)
 		}
 		get_export(export);
 		get_env(env);
-		// change_env_value(env, node->arguments);
-		// change_env_value(export, node->arguments);
-
-		
+		is_exist_env(env, node->arguments);
 	}
 }
