@@ -6,18 +6,19 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 07:46:47 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/19 18:35:56 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void env_command(m_node *node)
+void	env_command(m_node *node)
 {
-	char **env;
-	int i = 0;
-	
-	if (ft_strcmp(node->command ,"env") == 0)
+	char	**env;
+	int		i;
+
+	i = 0;
+	if (ft_strcmp(node->command, "env") == 0)
 	{
 		env = get_env(NULL);
 		if (env == NULL)
@@ -25,7 +26,7 @@ void env_command(m_node *node)
 		if (!node->arguments[1])
 		{
 			i = 0;
-			while(env[i])
+			while (env[i])
 				printf("%s\n", env[i++]);
 		}	
 		else

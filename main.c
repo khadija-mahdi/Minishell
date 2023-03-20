@@ -87,7 +87,7 @@ int	main(int ac, char **av, char **env)
 	print_name();
 	get_export(env);
 	get_env(env);
-	// signal(SIGINT, handle_sigint);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	tty();
 }

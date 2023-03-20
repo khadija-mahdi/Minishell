@@ -22,6 +22,7 @@ void	exit_msg(char *msg, int i);
 void	exit_command(m_node *node);
 void	env_command(m_node *node);
 void 	echo_command(m_node *node);
+void	unset(char **str, char **env);
 void 	cd_command(m_node *node);
 // void 	unset_command(m_node *node);
 void	exec(t_list *list);
@@ -44,5 +45,7 @@ void 	sigint_ctrl_C(int sig);
 char 	**get_new_env(char **old_env , char **str);
 void	sorted_list(char **export, int len);
 void	unset_command(m_node *node , char **env);
+char **unset_env(char **str , char **env);
 
 # endif
+

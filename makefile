@@ -18,7 +18,6 @@ src = main.c \
 	Utils/status.c \
 	Utils/Strings.c parsing/env.c\
 	exec/exec.c \
-	exec/implement_builtins/implement_builtins.c\
 	exec/exuc_utlis.c\
 	exec/implement_builtins/echo.c\
 	exec/implement_builtins/unset.c\

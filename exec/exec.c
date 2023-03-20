@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 08:38:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/19 18:49:52 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	exec(t_list *list)
 	if(!node->command || !node->arguments[0])
 		return ;
 	builtins(node);
-	pipe_exuc(node);
+	// pipe_exuc(node);
 	// handle_signal();
 }

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/19 06:16:27 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/19 17:38:57 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void tty(void)
 		free(default_promt);
 		if (!line)
 		{
-			// printf("exit\n");
+			printf("exit\n");
 			break;
 		}
 		if (handle_syntax(line))
