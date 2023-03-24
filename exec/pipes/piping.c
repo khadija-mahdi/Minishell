@@ -3,88 +3,143 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: khadija-mahdi <khadija-mahdi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/22 17:50:34 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/24 02:59:53 by khadija-mah       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void	command_one(int fd[], char **env, m_node *node )
-{
-	int		input;
-	char	*program_path;
 
-	input = open(node->arguments[1], O_RDONLY);
-	if (input == -1)
-		exit_msg("input fd error ! \n", 1);
-	if (node->arguments[1][0] == 0)
-		exit_msg(" command not found \n", 127);
-	program_path = get_paths(env, node->command);
-	if (program_path == NULL)
-		exit_msg("No such file or directory \n", 1);
-	if (dup2(input, 0) < 0 || (dup2(fd[1], 1) < 0))
-		exit_msg("Dup error cmd1! \n", 1);
-	execve(program_path, node->arguments, env);
-}
 
-void	command_two(int fd[], char **env, m_node *node )
-{
-	char	**list1;
-	int		output;
-	char	*program_path;
+#define MAX_ARGS 10
 
-	output = open(node->arguments[4], O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (output == -1)
-		exit_msg("input fd error ! \n", 1);
-	if (node->arguments[3][0] == 0)
-		exit_msg("command not found \n", 127);
-	program_path = get_paths(env, node->command);
-	if (program_path == NULL)
-		exit_msg("No such file or directory \n", 1);
-	if (dup2(output, 1) < 0 || dup2(fd[0], 0) < 0)
-		exit_msg("Dup error cmd2! \n", 1);
-	execve(program_path, node->arguments, env);
-}
-void	piping(int fd[2], int pid2, char **env, m_node *node)
+ void multiple_pipes(int argc, char *argv[])
 {
-	close(fd[1]);
-	pid2 = fork();
-	if (pid2 == 0)
-		command_two(fd, env, node);
-}
-void	error_handling(char **av)
-{
-	if (av[2][0] == '\0' && av[3][0] == '\0' )
-	{	
-		ft_printf("command not found\n");
-		exit_msg("command not found\n", 1);
-	}
-}
+    int i, j, k, l, status;
+    int num_pipes = 0;
+    int num_commands = 0;
+    int num_args[MAX_ARGS] = {0};
+    char *commands[MAX_ARGS][MAX_ARGS] = {NULL};
+    int pipes[MAX_ARGS][2];
 
-void two_pipes(m_node *node)
-{
-	int	pid;
-	int	pid2;
-	int	fd[2];
-	char **env;
-	env = get_env(NULL);
-
-	pid = 0;
-	pid2 = 0;
-	error_handling(node->arguments);
-	if (pipe(fd) == -1)
-	exit_msg("pipe error ! \n", 1);
-	pid = fork();
-	if (pid == 0)
+    // count the number of pipes and commands
+	i = 0;
+    while (i < argc) 
 	{
-		close(fd[0]);
-		command_one(fd, env, node);
-	}
-	else
-		piping(fd, pid2, env, node);
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+        if (strcmp(argv[i], "|") == 0) 
+		{
+            num_pipes++;
+            num_commands++;
+        } else
+            num_args[num_commands]++;
+		i++;
+    }
+    num_commands++;
+
+    // parse the command-line arguments
+    j = 0;
+    k = 0;
+	i = 1;
+    while (i < argc) 
+	{
+        if (strcmp(argv[i], "|") == 0)
+		{
+            commands[j][k] = NULL;
+            j++;
+            k = 0;
+        } 
+		else 
+		{
+            commands[j][k] = argv[i];
+            k++;
+        }
+		i++;
+    }
+    commands[j][k] = NULL;
+
+    // create the pipes
+	i = 0;
+    while (i < num_pipes) 
+	{
+        if (pipe(pipes[i]) == -1) 
+		{
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+		i++;
+    }
+
+    // execute the commands
+	i = 0;
+    while (i < num_commands) 
+	{
+        pid_t pid = fork();
+
+        if (pid == -1)
+		{
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        if (pid == 0)
+		{
+            // child process
+            if (i == 0)
+			{
+                // first command
+                dup2(pipes[0][1], STDOUT_FILENO);
+            }
+			else if (i == num_commands - 1)
+			{
+                // last command
+                dup2(pipes[num_pipes - 1][0], STDIN_FILENO);
+            }
+			else {
+                // intermediate command
+                dup2(pipes[i - 1][0], STDIN_FILENO);
+                dup2(pipes[i][1], STDOUT_FILENO);
+            }
+
+            // close all pipes
+			j = 0;
+            while (j < num_pipes)
+			{
+                close(pipes[j][0]);
+                close(pipes[j][1]);
+				j++;
+            }
+
+            // execute the command
+            execvp(commands[i][0], commands[i]);
+            perror("execvp");
+            exit(EXIT_FAILURE);
+        }
+		i++;
+    }
+
+    // close all pipes
+	i = 0;
+    while (i < num_pipes)
+	{
+        close(pipes[i][0]);
+        close(pipes[i][1]);
+		i++;
+    }
+
+    // wait for all child processes to finish
+	i = 0;
+    while (i < num_commands)
+	{
+        wait(&status);
+		i++;
+    }
+
+    return 0;
 }
+
+
+
+
