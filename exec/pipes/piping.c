@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 05:26:14 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/22 17:50:34 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,4 @@ void two_pipes(m_node *node)
 		piping(fd, pid2, env, node);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
-}
-void pipe_exuc(m_node *node) 
-{
-	char **env = get_env(NULL);
-	char	*program_path;
-	pid_t pid;
-	pid = fork();
-	program_path = get_paths(env, node->command);
-	if(pid == 0 && !is_builtins(node))
-		execve(program_path, node->arguments, env);
-	 waitpid(pid, NULL, 0);
 }

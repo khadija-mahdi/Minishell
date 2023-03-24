@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitouna <aaitouna@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:21 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/02/23 04:08:42 by aaitouna         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:20:51 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,15 @@ int syntax_here_doc(int flag, char *limiter)
 	int fd;
 	int pid;
 	fd = open(".temp_file", O_CREAT | O_RDWR | O_TRUNC, 0664);
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, here_doc_signal);
-		handle_here_doc(fd, limiter, flag);
-	}
-	close(fd);
-	signal(SIGINT, SIG_IGN);
-	free(limiter);
+	// pid = fork();
+	// if (pid == 0)
+	// {
+	// 	signal(SIGINT, here_doc_signal);
+	// 	handle_here_doc(fd, limiter, flag);
+	// }
+	// close(fd);
+	// signal(SIGINT, SIG_IGN);
+	// free(limiter);
 	return pid;
 }
 

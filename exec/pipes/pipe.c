@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:13:13 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 07:39:15 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/22 18:24:11 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int is_builtins(m_node *node)
 	else
 		return(0);
 }
-void	path(char *paths, char **full_path, char *av)
+void	path(char *paths, char **full_path, char *command)
 {
 	char	**my_paths;
 	char	*program;
@@ -43,7 +43,7 @@ void	path(char *paths, char **full_path, char *av)
 		my_paths = ft_split(paths + 5, ':');
 		while (my_paths[j])
 		{
-			program = ft_strjoin("/", av);
+			program = ft_strjoin("/", command);
 			*full_path = ft_strjoin(my_paths[j++], program);
 			free(program);
 			if (access(*full_path, F_OK) == 0)
@@ -81,7 +81,21 @@ char *get_command_path(char *command, char **env)
 	program_path = get_command_path(list[0], env);
 	return(program_path);
 }
-
+void pipe_exuc(m_node *node) 
+{
+	char **env = get_env(NULL);
+	char	*program_path;
+	pid_t pid;
+	
+	program_path = get_paths(env, node->command);
+	if(!is_builtins(node))
+	{
+		pid = fork();
+		if(!pid)
+			execve(program_path, node->arguments, env);
+		waitpid(pid, NULL, 0);
+	}
+}
 
 
 // }

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:45:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 17:54:30 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/23 20:50:16 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	pwd_command(m_node *node)
 {
-	char	pwd[4096]; // you chould know why 4096 :)
+	char	*pwd;
+
 	if (ft_strcmp(node->command, "pwd") == 0)
 	{
-		if (getcwd(pwd, sizeof(pwd)) != NULL)
+		pwd = getcwd(NULL, 0);
+		if (pwd != NULL)
 			printf("%s\n", pwd);
 	}
 }
@@ -62,14 +64,12 @@ void	cd(m_node *node)
 		printf("cd: no such file or directory: %s\n", node->arguments[1]);
 }
 
-void	cd_command(m_node *node)
+void	cd_command(m_node *node, char **env, char **export)
 {
-	char	**env;
-	char	pwd[4096];
-
-	env = get_env(NULL);
 	if (ft_strcmp(node->command, "cd") == 0)
 	{
+		update(env);
+		update(export);
 		if (!node->arguments[1] || !strcmp(node->arguments[1], "~"))
 			chdir(getenv("HOME"));
 		else

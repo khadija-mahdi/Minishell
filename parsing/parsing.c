@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/19 17:38:57 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/22 18:17:47 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char *get_promt_text(void)
 	char *USER;
 
 	working_directory = getcwd(NULL, 0);
+	if(!working_directory)
+		return ("");
 	HOME = getenv("HOME");
 	USER = getenv("USER");
 	dir = get_relative_path(HOME, working_directory);
@@ -153,18 +155,12 @@ void tty(void)
 		line = readline(default_promt);
 		free(default_promt);
 		if (!line)
-		{
-			printf("exit\n");
-			break;
-		}
+			exit_msg("exit", 0);
 		if (handle_syntax(line))
 			continue;
 		line = get_full_line(line);
 		if (!line)
-		{
-			printf("exit\n");
-			break;
-		}
+			exit_msg("exit", 0);
 		add_history(line);
 		parse(line, &list);
 		// printf_list(list);

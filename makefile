@@ -22,6 +22,7 @@ src = main.c \
 	exec/implement_builtins/echo.c\
 	exec/implement_builtins/unset.c\
 	exec/implement_builtins/export.c\
+	exec/implement_builtins/export_env.c\
 	exec/implement_builtins/exit.c\
 	exec/implement_builtins/env.c\
 	exec/implement_builtins/cd_pwd.c\

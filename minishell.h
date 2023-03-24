@@ -26,26 +26,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-typedef struct node
-{
-	int input_file;
-	char *command;
-	char **arguments;
-	int output_file;
-} m_node;
-
-enum file_input
-{
-	NONE = -3,
-	NO_FILE = -1,
-	ERROR = -2,
-};
-enum EXIT_STATUS
-{
-	M_SIG_INT = 78
-};
-
+# include "exec/exec.h"
+# include "types.h"
 int	here_doc(int flag, char *limiter);
 void	handle_here_doc(int fd, char *limiter, int flag);
 int	list_append(int **list, int new_pid, int size);

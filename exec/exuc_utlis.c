@@ -48,3 +48,14 @@ int	f_isdigit(int c)
 		return (1);
 	return (0);
 }
+void remove_env(char **env)
+{
+	char	**va_unset;
+	va_unset = env + 1;
+	while (*va_unset)
+	{
+		*(va_unset - 1) = *va_unset;
+		va_unset++;
+	}
+	*(va_unset - 1) = NULL;
+}
