@@ -6,85 +6,95 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/22 17:50:34 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/25 06:52:20 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void	command_one(int fd[], char **env, m_node *node )
+void multiple_pipes(char **commands, t_list *list, char **env) 
 {
-	int		input;
-	char	*program_path;
+    int num_commands = 1;
+    int i;
 
-	input = open(node->arguments[1], O_RDONLY);
-	if (input == -1)
-		exit_msg("input fd error ! \n", 1);
-	if (node->arguments[1][0] == 0)
-		exit_msg(" command not found \n", 127);
-	program_path = get_paths(env, node->command);
-	if (program_path == NULL)
-		exit_msg("No such file or directory \n", 1);
-	if (dup2(input, 0) < 0 || (dup2(fd[1], 1) < 0))
-		exit_msg("Dup error cmd1! \n", 1);
-	execve(program_path, node->arguments, env);
-}
-
-void	command_two(int fd[], char **env, m_node *node )
-{
-	char	**list1;
-	int		output;
-	char	*program_path;
-
-	output = open(node->arguments[4], O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (output == -1)
-		exit_msg("input fd error ! \n", 1);
-	if (node->arguments[3][0] == 0)
-		exit_msg("command not found \n", 127);
-	program_path = get_paths(env, node->command);
-	if (program_path == NULL)
-		exit_msg("No such file or directory \n", 1);
-	if (dup2(output, 1) < 0 || dup2(fd[0], 0) < 0)
-		exit_msg("Dup error cmd2! \n", 1);
-	execve(program_path, node->arguments, env);
-}
-void	piping(int fd[2], int pid2, char **env, m_node *node)
-{
-	close(fd[1]);
-	pid2 = fork();
-	if (pid2 == 0)
-		command_two(fd, env, node);
-}
-void	error_handling(char **av)
-{
-	if (av[2][0] == '\0' && av[3][0] == '\0' )
-	{	
-		ft_printf("command not found\n");
-		exit_msg("command not found\n", 1);
-	}
-}
-
-void two_pipes(m_node *node)
-{
-	int	pid;
-	int	pid2;
-	int	fd[2];
-	char **env;
-	env = get_env(NULL);
-
-	pid = 0;
-	pid2 = 0;
-	error_handling(node->arguments);
-	if (pipe(fd) == -1)
-	exit_msg("pipe error ! \n", 1);
-	pid = fork();
-	if (pid == 0)
+	i = 0;
+	if (list == NULL)
+		return ;
+	while (list)
 	{
-		close(fd[0]);
-		command_one(fd, env, node);
+		m_node *node = (m_node *)list->content;
+		if (!node)
+		{
+			printf("node null");
+			return ;
+		}
+		num_commands++;
+		list = list->next;
 	}
-	else
-		piping(fd, pid2, env, node);
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	num_commands--;
+    int pipes[2 * (num_commands - 1)];
+
+	i = 0;
+    while (i < num_commands-1)
+	{
+        if (pipe(pipes + i * 2) < 0)
+		{
+            perror("pipe error");
+            return;
+        }
+		i++;
+    }
+
+    int pid;
+    int in = 0;
+    int out = 1;
+
+	i = 0;
+    while (i < num_commands)
+	{
+		printf("%d\n, %s\n", num_commands, commands[i]);
+        if ((pid = fork()) < 0)
+		{
+            perror("fork error");
+            return ;
+        }
+		else if (pid == 0)
+		{
+            if (i != 0)
+			{
+                if (dup2(pipes[in], 0) < 0) {
+                    perror("dup2 error");
+                    return;
+                }
+                close(pipes[in]);
+            }
+            if (i != num_commands - 1) {
+                if (dup2(pipes[out], 1) < 0) {
+                    perror("dup2 error");
+                    exit(1);
+                }
+                close(pipes[out]);
+            }
+            char *path = get_paths(env, commands[i]);
+            execve(path, commands, env);
+            perror("execve error");
+            exit(1);
+        } else {
+            if (i != 0) {
+                close(pipes[in]);
+            }
+            if (i != num_commands-1) {
+                close(pipes[out]);
+            }
+            in += 2;
+            out += 2;
+        }
+		i++;
+	}
+	i = 0;
+    while (i < num_commands)
+	{
+        wait(NULL);
+		i++;
+    }
 }

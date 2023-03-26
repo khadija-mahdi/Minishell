@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/23 20:46:11 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/25 06:48:19 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	**get_export(char **p)
 
 void	exec(t_list *list)
 {
+	char **env = get_env(NULL);
 	if (list == NULL)
 		return ;
 	m_node *node = (m_node *)list->content;
@@ -61,6 +62,7 @@ void	exec(t_list *list)
 	if(!node->command || !node->arguments[0])
 		return ;
 	builtins(node);
-	pipe_exuc(node);
+	multiple_pipes(node->arguments, list, env);
+	// pipe_exuc(node);
 	// handle_signal();
 }
