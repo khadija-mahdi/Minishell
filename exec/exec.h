@@ -54,6 +54,6 @@ char 	*change_env(char **env);
 void	update(char **env);
 int 	is_forbiden_char(char *str);
 int		check_is_command(char **arguments, char **env);
-void multiple_pipes(char **commands, t_list *list, char **env);
+void multiple_pipes(m_node *node, t_list *list, char **env);
 
 # endif
