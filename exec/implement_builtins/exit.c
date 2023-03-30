@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:33:11 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/19 17:28:22 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/27 23:38:25 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,24 +84,21 @@ void	exit_command(m_node *node)
 	int	len;
 
 	i = 0;
-	if (strcmp(node->command, "exit") == 0)
-	{	
-		len = get_nub_len(node->arguments[1]);
-		if (!node->arguments[1])
-			exit_msg("MiniSHell: exit\n", 0);
-		else if (node->arguments[2] && (ft_atoi(node->arguments[1])) != 0)
-		{
-			printf("exit\nMiniSHell: exit: too many arguments\n");
-			return ;
-		}
-		else if (strcmp(node->arguments[1], "0") == 0 && !node->arguments[2])
-			exit_msg("MiniSHell: exit\n", 0);
-		else if (node->arguments[2] && (ft_atoi(node->arguments[1])) == 0)
-		{
-			printf("exit\nMiniSHell: exit: %s: ", node->arguments[1]);
-			exit_msg("numeric argument required\n", 255);
-		}
-		else if (!node->arguments[2])
-			numeric_required(node, len);
+	len = get_nub_len(node->arguments[1]);
+	if (!node->arguments[1])
+		exit_msg("MiniSHell: exit\n", 0);
+	else if (node->arguments[2] && (ft_atoi(node->arguments[1])) != 0)
+	{
+		printf("exit\nMiniSHell: exit: too many arguments\n");
+		return ;
 	}
+	else if (strcmp(node->arguments[1], "0") == 0 && !node->arguments[2])
+		exit_msg("MiniSHell: exit\n", 0);
+	else if (node->arguments[2] && (ft_atoi(node->arguments[1])) == 0)
+	{
+		printf("exit\nMiniSHell: exit: %s: ", node->arguments[1]);
+		exit_msg("numeric argument required\n", 255);
+	}
+	else if (!node->arguments[2])
+		numeric_required(node, len);
 }

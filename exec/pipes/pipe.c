@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:13:13 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/26 00:42:19 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/29 08:33:29 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,39 @@ void pipe_exuc(m_node *node)
 	char **env = get_env(NULL);
 	char	*program_path;
 	pid_t pid;
+	int fd[2];
+	pipe(fd);
+	int i;
+	i = 0;
 	
 	program_path = get_paths(env, node->command);
+	if(node->output_file != NONE)
+		dup2(node->output_file, 1);
+	if(node->input_file != NONE)
+		dup2(node->input_file, 0);
 	if(!is_builtins(node))
 	{
 		pid = fork();
 		if(!pid)
+		{
+			close (fd[0]);
+			dup2(fd[1], STDOUT_FILENO);
 			execve(program_path, node->arguments, env);
-		waitpid(pid, NULL, 0);
+		}
+		else
+		{
+		  close(fd[1]); // close write end of pipe
+        	char buf[1024];
+        	int nbytes;
+	
+        	while ((nbytes = read(fd[0], buf, sizeof(buf))) > 0) {
+        	    write(STDOUT_FILENO, buf, nbytes); // print child's output to parent's stdout
+        	}
+			waitpid(pid, NULL, 0);
+			close(fd[0]);
+		}
 	}
+	// free(program_path);
 }
 
 

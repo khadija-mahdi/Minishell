@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:24 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/23 20:49:33 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/29 21:06:39 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@ void	builtins(m_node *node)
 
 	env = get_env(NULL);
 	export = get_export(NULL);
-	env = get_env(env);
-	export = get_export(export);
-	exit_command(node);
-	cd_command(node, env, export);
-	pwd_command(node);
-	echo_command(node);
-	export_command(node, export, env);
-	unset_command(node, env);
-	env_command(node);
+		
+	if (!strcmp(node->command, "exit"))
+		exit_command(node);
+	if (!ft_strcmp(node->command, "pwd"))
+		pwd_command(node);
+	if (!ft_strcmp(node->command, "cd"))
+		cd_command(node, env, export);
+	if (!ft_strcmp(node->command, "echo"))
+		echo_command(node);
+	if (!ft_strcmp(node->command, "export"))
+		export_command(node, export, env);
+	if (!ft_strcmp(node->command, "unset"))
+		unset_command(node, env);
+	if (!ft_strcmp(node->command, "env"))
+		env_command(node);
 }

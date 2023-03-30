@@ -30,9 +30,6 @@ src = main.c \
 	exec/pipes/pipe.c\
 	exec/pipes/piping.c\
 
-
-
-
 obj = ${src:.c=.o}
 
 NAME =  minishell
@@ -42,10 +39,11 @@ incldlib = -I/Users/aaitouna/homebrew/opt/readline/include
 libreadline = -lreadline -L/Users/kmahdi/homebrew/opt/readline/lib
 libft = libft/libft.a
 
+# -fsanitize=address -g 
 all: $(NAME)
 
 $(NAME) : $(obj) $(libft)
-	gcc $(obj) $(libft) $(libreadline) $() -fsanitize=address -g -o $(NAME)
+	gcc $(obj) $(libft) $(libreadline) $() -fsanitize=address -g  -o $(NAME)
 
 $(libft):
 	make bonus --directory=libft
