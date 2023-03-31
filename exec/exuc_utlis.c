@@ -4,7 +4,7 @@ int ft_strcmp(char *s1, char *s2)
 {
 	int i = 0;
 	
-	while(s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+	while(s1 && s2 && s1[i] && s2[i] && s1[i] == s2[i])
 	{	
 		i++;
 	}
@@ -52,7 +52,7 @@ void remove_env(char **env)
 {
 	char	**va_unset;
 	va_unset = env + 1;
-	while (*va_unset)
+	while (va_unset && *va_unset)
 	{
 		*(va_unset - 1) = *va_unset;
 		va_unset++;

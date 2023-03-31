@@ -29,6 +29,7 @@ src = main.c \
 	exec/implement_builtins/builtins.c\
 	exec/pipes/pipe.c\
 	exec/pipes/piping.c\
+	exec/implement_builtins/export_equal.c\
 
 obj = ${src:.c=.o}
 

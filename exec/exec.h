@@ -46,8 +46,7 @@ void	unset_command(m_node *node , char **env);
 char	**unset_env(char **str , char **env);
 char	**get_new_export(char **old_export, char **str);
 void	expor_exict_env(char **str, char **env, char **export);
-// char	**reset(char **str, char **env);
-char	**get_name(char **str, int index);
+// char	**get_name(char **str);
 void	remove_env(char **env);
 char	**update_env(char **env);
 char	*change_env(char **env);
@@ -58,9 +57,9 @@ void 	multiple_pipes(m_node *node, t_list *list, char **env);
 void	redirect_input(m_node *node);
 int		is_plus_equal(char *arguments);
 void	add_equal_plus(char **arguments, char **export);
-// int		string_exists(char **export, int n, char *argument);
-char	**get_value(char **str, int index);
+char	**get_value(char **str);
 int		is_equal_plus(char *str);
-char	*add_qoutes(char *str);
+char *add_qoutes(char *str, int is_env);
+char *add_plus_string(char **export , char *new_str, int is_env);
 
 # endif

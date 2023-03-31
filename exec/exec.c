@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/29 07:54:01 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/31 06:49:17 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**get_export(char **p)
 	if (p != NULL)
 	{
 		export = malloc((size(p) + 1) * sizeof(char *));
-		while (p[i])
+		while (p && p[i])
 		{
 			export[i] = ft_strdup(p[i]);
 			i++;

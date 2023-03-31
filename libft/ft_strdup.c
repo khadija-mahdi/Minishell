@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:03:18 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/29 02:10:14 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/03/31 06:40:10 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(const char *s1)
 
 	len = ft_strlen(s1) + 1;
 	dst = malloc(len * sizeof(char));
-	if (!dst)
+	if (!dst || !s1)
 		return (NULL);
 	ft_memcpy(dst, s1, len);
 	return (dst);

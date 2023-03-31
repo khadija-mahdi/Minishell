@@ -29,7 +29,7 @@ char	**get_env(char **p)
 	if (p != NULL)
 	{
 		env = malloc((size(p) + 1) * sizeof(char *));
-		while (p[i])
+		while (p && p[i])
 		{
 			env[i] = strdup(p[i]);
 			i++;
@@ -42,7 +42,7 @@ int main(int ac, char **av, char **env)
 {
 	char **s = get_env(NULL);
 
-	while(*s)
+	while(s && *s)
 	{
 		printf("%s\n", *s);
 		s++;
