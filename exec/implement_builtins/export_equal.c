@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:25:36 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/31 00:38:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 01:12:15 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 // 	return (new_string);
 // }
 
-// char *add_qoutes(char *str, int is_env)
+// char *add_quotes(char *str, int is_env)
 // {
 // 	int		len;
 // 	char	*new_string;
@@ -78,7 +78,7 @@
 // 	is_equal = -1;
 // 	while((new_str[start] != '=') && new_str[start])
 // 		start++;
-// 	new_str= add_qoutes(new_str, is_env);
+// 	new_str= add_quotes(new_str, is_env);
 // 	while (export[i])
 // 	{
 // 		if (!ft_strncmp(export[i], new_str, start))

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/31 06:58:13 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 01:34:13 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int is_equal_plus(char *str)
 	}
 	return (1);
 }
-int is_forbiden_char(char *str)
+int is_forbidden_char(char *str)
 {
 	int i = 1;
 	while(str && str[i])
@@ -169,7 +169,7 @@ void	add_new_env(char **env, char **old_env, char **str)
 	}
 	while (str && str[k])
 	{
-		if (!ft_isalpha(str[k][0]) || is_forbiden_char(str[k]) || !is_equal_plus(str[k]))
+		if (!ft_isalpha(str[k][0]) || is_forbidden_char(str[k]) || !is_equal_plus(str[k]))
 			k++;
 		else if (str && str[k])
 		{
@@ -216,7 +216,7 @@ int	get_start(char *str)
 	int	start;
 
 	start = 0;
-	while (str[start] != '=' && str[start] && str)
+	while (str && str[start] && str[start] != '=')
 		start++;
 	if (str[start] == '=')
 		start++;
@@ -226,50 +226,26 @@ int	get_start(char *str)
 char **remove_duplicate(char **arguments)
 {
     int len;
+	int j ;
 	char **new_arguments;
-    int i;
-	int	 j;
-    int k;
 	int index;
+
 	
-	len = 0;
-    while (arguments[len] && arguments) 
-        len++;
-    	i = 0;
-    while (i < len - 1)
+	int i = 0;
+    while (arguments && arguments[i])
 	{
 		j = i + 1;
-        while (j < len)
+		len = get_start(arguments[i]);
+        while (arguments && arguments[j])
 		{
-            if (ft_strcmp(arguments[i], arguments[j]) == 0)
-			{
-				k = j;
-                while (k < len - 1)
-				{
-                    arguments[k] = arguments[k + 1];
-					k++;
-                }
-             	len--;
-                j--;
-            }
-			j++;
+            if (ft_strncmp(arguments[i], arguments[j], len) == 0)
+				remove_env(arguments + i);
+			else
+				j++;
         }
 		i++;
     }
-    new_arguments = malloc((len+1) * sizeof(char*));
-    index = 0;
-    	i = 0;
-    while (i < len)
-	{
-        if (arguments[i])
-		{
-            new_arguments[index] = arguments[i];
-            index++;
-        }
-		i++;
-    }
-    new_arguments[len] = NULL;
-    return new_arguments;
+    return (new_arguments);
 }
 
 
@@ -287,15 +263,21 @@ void	export_command(m_node *node, char	**old_export, char	**old_env)
 	}
 	env = get_new_env(old_env, node->arguments);
 	export = get_new_export(old_export, node->arguments);
-	// export = remove_duplicate(export);
-	// env = remove_duplicate(env);
+	export = remove_duplicate(export);
+	env = remove_duplicate(env);
 	if (export == NULL || export == NULL)
-		exit_msg("env dosn't exict\n", 7);
-	while (export[i] && !node->arguments[1])
-		printf("declare -x %s\n", export[i++]);
+		exit_msg("env doesn't exist\n", 7);
+	while (export && node->arguments&& export[i] && !node->arguments[1])
+	{
+		if (is_value(export[i]))
+			printf("declare -x %s\n", add_quotes(export[i], 0));
+		else
+			printf("declare -x %s\n", export[i]);
+		i++;
+	}
 	get_export(export);
 	get_env(env);
-	free_list (export);
-	free_list (env);
+	// free_list (export);
+	// free_list (env);
 }
 
