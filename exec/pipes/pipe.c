@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:13:13 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/29 08:33:29 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 05:36:43 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char *get_command_path(char *command, char **env)
 	program_path = get_command_path(list[0], env);
 	return(program_path);
 }
-void pipe_exuc(m_node *node) 
+void pipe_exec(m_node *node) 
 {
 	char **env = get_env(NULL);
 	char	*program_path;

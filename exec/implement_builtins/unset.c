@@ -6,26 +6,25 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 14:49:48 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/29 21:03:11 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 07:30:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void unset_valide(char **str, char **env)
+void unset_valid(char **str, char **env)
 {
 	int	i;
 
 	i = 1;
-	while (str[i])
+	while (str && str[i])
 	{
-		while (ft_strncmp(*env, str[i], ft_strlen(*env)) == 0)
-			printf("unset: '%s' : not a valid identifier\n", str[i++]);
-		if (!ft_strncmp(*env, str[i], ft_strlen(str[i]))
+		if ((str && str[i]) && ((!ft_isalpha(str[i][0]) || is_forbidden_char(str[i])) || !ft_strncmp(*env, str[i], ft_strlen(*env))))
+			printf("unset: '%s' : not a valid identifier\n", str[i]);
+		else if ((str && str[i]) && !ft_strncmp(*env, str[i], ft_strlen(str[i]))
 			&& (*env)[ft_strlen(str[i])] == '=')
 			remove_env(env);
-		else
-			i++;
+		i++;
 	}
 }
 char	**unset_env(char **str, char **env)
@@ -36,7 +35,7 @@ char	**unset_env(char **str, char **env)
 
 	tmp = env;
 	while (*env)
-		unset_valide(str, env++);
+		unset_valid(str, env++);
 	return (tmp);
 }
 

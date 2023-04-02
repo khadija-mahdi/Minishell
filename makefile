@@ -21,15 +21,18 @@ src = main.c \
 	exec/exuc_utlis.c\
 	exec/implement_builtins/echo.c\
 	exec/implement_builtins/unset.c\
-	exec/implement_builtins/export.c\
-	exec/implement_builtins/export_env.c\
+	exec/implement_builtins/export/export.c\
+	exec/implement_builtins/export/export_utils.c\
+	exec/implement_builtins/export/export_env.c\
+	exec/implement_builtins/export/reset_export.c\
 	exec/implement_builtins/exit.c\
 	exec/implement_builtins/env.c\
 	exec/implement_builtins/cd_pwd.c\
 	exec/implement_builtins/builtins.c\
 	exec/pipes/pipe.c\
 	exec/pipes/piping.c\
-	exec/implement_builtins/export_equal.c\
+	exec/implement_builtins/export//export_equal.c\
+
 
 obj = ${src:.c=.o}
 
