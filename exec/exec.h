@@ -57,10 +57,12 @@ void 	multiple_pipes(m_node *node, t_list *list, char **env);
 void	redirect_input(m_node *node);
 int		is_plus_equal(char *arguments);
 void	add_equal_plus(char **arguments, char **export);
-char	**get_value(char **str);
 int		is_equal_plus(char *str);
 char *add_quotes(char *str, int is_env);
 char *add_plus_string(char **export , char *new_str, int is_env);
 char *add_quotes(char *str, int is_env);
+int is_value(char *str);
+char	**get_name(char **argument);
+char **reset_forbidden_env(char **name);
 
 # endif

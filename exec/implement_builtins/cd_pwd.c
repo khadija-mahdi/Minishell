@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:45:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/29 02:11:40 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 03:49:42 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	cd(m_node *node)
 
 void	cd_command(m_node *node, char **env, char **export)
 {
-	// update(env);
-	// update(export);
+	update(env);
+	update(export);
 	if (!node->arguments[1] || !strcmp(node->arguments[1], "~"))
 		chdir(getenv("HOME"));
 	else

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/28 22:20:23 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 01:55:20 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	env_command(m_node *node)
 		perror("env");
 	if (!node->arguments[1])
 	{
-		while (env[i])
+		while (env && env[i] && is_value(env[i]))
 			printf("%s\n", env[i++]);
 	}	
 	else

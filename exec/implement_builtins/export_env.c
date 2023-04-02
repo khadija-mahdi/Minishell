@@ -6,33 +6,33 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/02 01:34:13 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 03:44:15 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-char	**get_name(char **str)
+char	**get_name(char **argument)
 {
 	char	**name;
 	int		start;
 	int		i;
 	int		j;
 
-	i = 1;
+	i = 0;
 	j = 0;
 	name = NULL;
-	if (str[i])
+	if (argument[i])
 	{
-		name = malloc(size(str) + sizeof(char *));
-		while (str[i])
+		name = malloc(size(argument) * sizeof(char *));
+		while (argument[i])
 		{
 			start = 0;
-			while (str[i][start] != '=' && str[i][start])
+			while (argument[i][start] != '=' && argument[i][start])
 				start++;
-			if (str[i][start] == '=')
+			if (argument[i][start] == '=')
 				start++;
-			name[j] = ft_substr(str[i], 0, start);
+			name[j] = ft_substr(argument[i], 0, start);
 			i++;
 			j++;
 		}
@@ -41,90 +41,75 @@ char	**get_name(char **str)
 	return (name);
 }
 
-char	**get_value(char **str)
+
+int is_equal_plus(char *argument)
 {
-	char	**value;
-	int		start;
-	int		i;
 	int len;
-	int		j;
+	int index;
 
-	i = 0;
-	j = 0;
-	value = NULL;
-	if (str && str[i])
+	len = 0;
+	index = 0;
+	while(argument && argument[len] && argument[len] != '=')
+		len++;
+	while(index < len)
 	{
-		value = malloc(size(str + 1) * sizeof(char *));
-		len = ft_strlen(str[i] + 1);
-		while (str && str[i])
+		if (argument[index] == '+')
 		{
-			// printf("name = %s\n", str[i]);
-			start = 0;
-			while (str && str[i][start] != '=' && str[i][start])
-				start++;
-			if (str[i][start] == '=')
-				start++;
-
-			value[j] = ft_substr(str[i], start, len);
-			i++;
-			j++;
-		}
-		value[j] = NULL;
-	}
-	return (value);
-}
-
-int is_nbr_alpha(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||( c == '_' || c == '=' )|| (c >= '0' && c <= '9' ))
-		return (1);
-	return (0);
-}
-int is_equal_plus(char *str)
-{
-	int i;
-
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == '+')
-		{
-			printf("%c\n", str[i + 1]);
-			if (str[i + 1] == '=' && is_nbr_alpha(str[i + 2]))
+			if (argument[index + 1] == argument[len])
 				return (1);
 			return(0);
 		}
-		i++;
+		index++;
 	}
 	return (1);
 }
-int is_forbidden_char(char *str)
+int is_forbidden_char(char *argument)
 {
-	int i = 1;
-	while(str && str[i])
+	int len;
+	int index;
+
+	len = 0;
+	index = 0;
+	while(argument && argument[len] && argument[len] != '=')
+		len++;
+	while(index < len)
 	{
-		if(!ft_isalnum(str[i]))
+		if(!ft_isalnum(argument[index]))
 			return(1);
-		i++;
+		index++;
 	}
 	return (0);
 }
 
-int is_value(char *str)
+int is_value(char *argument)
 {
 	int i;
 	
 	i = 0;
-	while (str && str[i])
+	while (argument && argument[i])
 	{
-		if (str[i] == '=')
+		if (argument[i] == '=')
 			return (i);
 		i++;
 	}
 	return (0);
 }
 
-char	**reset(char **env, char **str)
+char **reset_forbidden_env(char **name)
+{
+	char **env = name;
+	while (name && *name)
+	{
+		if ((!ft_isalpha(*name[0]) || is_forbidden_char(*name) || !is_equal_plus(*name)))
+			remove_env(name);
+		else
+			name++;
+	}
+	return (env);
+	
+}
+
+char	**reset(char **env, char **argument)
 {
 	int		len;
 	int		i;
@@ -137,28 +122,25 @@ char	**reset(char **env, char **str)
 	{
 	
 		i = 0;
-		while (str && str[i])
+		while (argument && argument[i])
 		{
-			len = is_value(str[i]);
-			if (!ft_strncmp(*env, str[i], len) && is_value(str[i]))
-			{
-				printf("removing %s ......>\n", *env);
+			len = is_value(argument[i]);
+			if (!ft_strncmp(*env, argument[i], len) && is_value(argument[i]))
 				remove_env(env);
-			}
 			else
 				i++;
 		}
 		env++;
 	}
-	// free(*env);
 	return (temp);
 }
 
-void	add_new_env(char **env, char **old_env, char **str)
+void	add_new_env(char **env, char **old_env, char **arguments)
 {
 	int	i;
 	int	j;
 	int	k;
+	char **name = get_name(arguments);
 
 	i = 0;
 	k = 1;
@@ -167,23 +149,21 @@ void	add_new_env(char **env, char **old_env, char **str)
 		env[i] = ft_strdup(old_env[i]);
 		i++;
 	}
-	while (str && str[k])
+	while (arguments && arguments[k])
 	{
-		if (!ft_isalpha(str[k][0]) || is_forbidden_char(str[k]) || !is_equal_plus(str[k]))
-			k++;
-		else if (str && str[k])
+		if (arguments && arguments[k])
 		{
 			j = 0;
-			while (str && str[k] && str[k][j])
+			while (arguments && arguments[k] && arguments[k][j])
 			{
-				if (str[k][j] == '=' && str[k][j- 1] != '+')
+				if (arguments[k][j] == '=' && arguments[k][j- 1] != '+')
 				{
-					env[i++] = ft_strdup(str[k]);
+					env[i++] = ft_strdup(arguments[k]);
 					break ;
 				}
-				else if (str[k][j] == '=' && str[k][j - 1] == '+' && str[k][j - 1])
+				else if (arguments[k][j] == '=' && arguments[k][j - 1] == '+' && arguments[k][j - 1])
 				{
-					env[i++] = ft_strdup(add_plus_string(old_env, str[k], 1));
+					env[i++] = ft_strdup(add_plus_string(old_env, arguments[k], 1));
 					break ;
 				}
 				j++;
@@ -197,55 +177,57 @@ void	add_new_env(char **env, char **old_env, char **str)
 	// free_list(old_env);
 }
 
-char	**get_new_env(char **old_env, char **str)
+char	**get_new_env(char **old_env, char **arguments)
 {
 	char	**env;
 
-	if (old_env != NULL && !str[1])
+	if (old_env != NULL && !arguments[1])
 		env = get_env(NULL);
-	else if (old_env != NULL && str[1])
+	else if (old_env != NULL && arguments[1])
 	{
-		env = malloc((size(old_env) + size(str)) * sizeof(char *));
-		add_new_env(env, old_env, str);
+		env = malloc((size(old_env) + size(arguments)) * sizeof(char *));
+		add_new_env(env, old_env, arguments);
 	}
+	env = reset_forbidden_env(env);
 	return (env);
 }
 
-int	get_start(char *str)
+int	get_start(char *argument)
 {
 	int	start;
 
 	start = 0;
-	while (str && str[start] && str[start] != '=')
+	while (argument && argument[start] && argument[start] != '=')
 		start++;
-	if (str[start] == '=')
+	if (argument[start] == '=')
 		start++;
 	return (start);
 }
 
-char **remove_duplicate(char **arguments)
+char **remove_duplicate(char **export)
 {
     int len;
 	int j ;
-	char **new_arguments;
+	char **new_export;
 	int index;
 
 	
 	int i = 0;
-    while (arguments && arguments[i])
+    while (export && export[i])
 	{
 		j = i + 1;
-		len = get_start(arguments[i]);
-        while (arguments && arguments[j])
+		len = get_start(export[i]);
+        while (export && export[j])
 		{
-            if (ft_strncmp(arguments[i], arguments[j], len) == 0)
-				remove_env(arguments + i);
+            if (ft_strncmp(export[i], export[j], len) == 0)
+				remove_env(export + i);
 			else
 				j++;
         }
-		i++;
+		
+			i++;
     }
-    return (new_arguments);
+    return (new_export);
 }
 
 
@@ -277,7 +259,5 @@ void	export_command(m_node *node, char	**old_export, char	**old_env)
 	}
 	get_export(export);
 	get_env(env);
-	// free_list (export);
-	// free_list (env);
 }
 

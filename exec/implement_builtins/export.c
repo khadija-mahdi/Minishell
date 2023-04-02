@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/02 01:32:44 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/02 03:44:37 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,10 @@ void	add_new_export(char **export, char **old_export, char **str)
 	int	i;
 	int	j;
 	int k;
-	int is_equal;
+	char **name = get_name(str);
 
 	i = 0;
 	j = 1;
-	is_equal = -1;
 	while (old_export && old_export[i])
 	{
 		export[i] = ft_strdup(old_export[i]);
@@ -140,8 +139,8 @@ void	add_new_export(char **export, char **old_export, char **str)
 	sorted_list(export, size(old_export));
 	while (str && str[j] && !string_exists(old_export, size(old_export), str[j], ft_strlen(str[j])))
 	{
-		while (str && str[j] && (!ft_isalpha(str[j][0]) || is_forbidden_char(str[j]) || !is_equal_plus(str[j])))
-			printf("export: '%s': not a valid identifier\n", str[j++]);
+		if (name && name[j] && (!ft_isalpha(name[j][0]) || is_forbidden_char(name[j]) || !is_equal_plus(name[j])))
+			printf("export: '%s': not a valid identifier\n", str[j]);
 		if (str && str[j])
 		{
 			k = 0;
@@ -155,7 +154,6 @@ void	add_new_export(char **export, char **old_export, char **str)
 				k++;
 			}
 			export[i++] = ft_strdup(str[j]);
-				printf("here !! %d\n", is_equal++);
 		}
 		j++;
 	}
@@ -177,5 +175,6 @@ char	**get_new_export(char **old_export, char **str)
 		export = malloc((size(old_export) + size(str)) * sizeof(char *));
 		add_new_export(export, old_export, str);
 	}
+	export = reset_forbidden_env(export);
 	return (export);
 }
