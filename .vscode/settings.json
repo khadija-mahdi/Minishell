@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"wait.h": "c",
-		"minishell.h": "c",
-		"types.h": "c",
-		"exec.h": "c"
-	},
-	"C_Cpp.errorSquiggles": "enabled"
-}
