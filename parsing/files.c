@@ -6,11 +6,11 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:34:35 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/27 01:23:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 int	is_between_qute(char *line)
 {
@@ -50,7 +50,7 @@ int	open_input_file(char *line, int *i, int output)
 	}
 	open_flag = O_RDONLY;
 	file_name = get_input_value(&line[++(*i)], NULL, i, 1);
-	// printf("fine_name <%s>", file_name);
+	printf("fine_name <%s>", file_name);
 	if (file_name == NULL)
 	{
 		input_file = ERROR;
@@ -59,7 +59,7 @@ int	open_input_file(char *line, int *i, int output)
 	else if (output != ERROR && output != NO_FILE)
 	{
 		if ((input_file = open(file_name, open_flag, 0664)) == -1)
-			perror(file_name);
+			perror("-bash :");
 	}
 	if (file_name != NULL)
 		free(file_name);

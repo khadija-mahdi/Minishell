@@ -6,11 +6,11 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:21:01 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/03/18 18:38:56 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 char	*get_path(void)
 {

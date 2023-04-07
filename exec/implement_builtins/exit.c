@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:33:11 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/03/27 23:38:25 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/07 12:10:33 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	get_nub_len(char *str)
 void	is_max_min(char *str)
 {
 	long	status;
-	int		len;
 	int		check;
+	int		len;
 
 	len = get_nub_len(str);
 	check = -1;
@@ -62,6 +62,7 @@ void	numeric_required(m_node *node, int len)
 
 	status = 0;
 	check = 1;
+	i = 0;
 	status = ft_atoi(node->arguments[1]);
 	if (node->arguments[1][0] == '-' || node->arguments[1][0] == '+')
 		i = 1;

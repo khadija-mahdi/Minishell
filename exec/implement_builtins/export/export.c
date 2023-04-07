@@ -6,75 +6,63 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/02 06:53:32 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/07 07:50:08 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../exec.h"
+#include "export.h"
 
-int	string_exists(char **export, int n, char *argument, int len)
+int	is_add_plus_str(char *argument)
 {
 	int	i;
 
 	i = 0;
-	while (i < n)
+	while (argument && argument[i])
 	{
-		if (strncmp(export[i], argument, len) == 0)
+		if (argument[i] == '=' && argument[i - 1] == '+')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-void	add_new_export(char **export, char **old_export, char **str)
+void	add_new_export(char **export, char **old_export, char **arguments)
 {
 	int	i;
 	int	j;
-	int k;
-	char **name = get_name(str);
+	int	is_valid;
 
-	i = 0;
-	while (old_export && old_export[i])
-	{
+	i = -1;
+	while (old_export && old_export[++i])
 		export[i] = ft_strdup(old_export[i]);
-		i++;
-	}
-	sorted_list(export, size(old_export));
 	j = 1;
-	while (str && str[j] && !string_exists(old_export, size(old_export), str[j], ft_strlen(str[j])))
+	while (arguments && arguments[j] && !string_exists(old_export, \
+		size(old_export), arguments[j], ft_strlen(arguments[j])))
 	{
-		if (name && name[j] && (!ft_isalpha(name[j][0]) || is_forbidden_char(name[j]) || !is_equal_plus(name[j])))
-			printf("export: '%s': not a valid identifier\n", str[j]);
-		if (str && str[j])
-		{
-			k = 0;
-			while (str && str[j] && str[j][k])
-			{
-				if (str[j][k] == '=' && str[j][k - 1] == '+')
-				{
-					export[i++] = ft_strdup(add_plus_string(old_export, str[j++], 0));
-					break ;
-				}
-				k++;
-			}
-			export[i++] = ft_strdup(str[j]);
-		}
+		is_valid = 0;
+		if (arguments[j] && arguments[j][0] == '#')
+			break ;
+		if (is_add_plus_str(arguments[j]))
+			export[i++] = ft_strdup(add_plus_string(old_export, \
+					arguments[j]));
+		else
+			export[i++] = ft_strdup(arguments[j]);
 		j++;
 	}
 	export[i] = NULL;
-	// free_list (old_export);
 }
 
 char	**get_new_export(char **old_export, char **str)
 {
 	char	**export;
-	
+
+	export = NULL;
 	if (old_export != NULL && !str[1])
 	{
 		export = get_export(NULL);
 		sorted_list(export, size(old_export));
 	}
-	else if (old_export != NULL && str[1])
+	else if (old_export)
 	{
 		export = malloc((size(old_export) + size(str)) * sizeof(char *));
 		add_new_export(export, old_export, str);
