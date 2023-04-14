@@ -6,36 +6,23 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 08:20:35 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 13:11:56 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
 
-char	**the_new_env(char **env, m_node *node)
-{	
-	char	*new_under;
-	char	**new_env;
-	char	*sh_lvl;
-	char	*pwd;
-	int		i;
+char	*shell_level(char **env)
+{
+	char		*lvl_sh;
+	char		*str;
 
-	new_under = get_underscore(env, node);
-	sh_lvl = shell_level(node, env);
-	pwd = pwd_env(env);
-	i = 0;
-	new_env = malloc((size(env) + 4) * sizeof(char *));
-	while (env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new_env[i] = ft_strdup(sh_lvl);
-	new_env[++i] = ft_strdup(new_under);
-	new_env[++i] = ft_strdup(pwd);
-	new_env[++i] = NULL;
-	free(new_under);
-	return (new_env);
+	str = ft_itoa(g__helper.sh_lvl);
+	lvl_sh = NULL;
+	if (g__helper.sh_lvl >= 1000)
+		g__helper.sh_lvl = 1;
+	lvl_sh = m_safe_strjoin("SHLVL=", str, 2);
+	return (lvl_sh);
 }
 
 int	is_equal_plus_str(char *arg)
@@ -60,18 +47,19 @@ void	add_new_env(char **env, char **old_env, char **arguments)
 	int	k;
 
 	i = -1;
-	k = 1;
 	while (old_env && old_env[++i])
 		env[i] = ft_strdup(old_env[i]);
+	k = 1;
 	while (arguments && arguments[k])
 	{
 		if (arguments[k][0] == '#')
 			break ;
 		if (is_equal_plus_str(arguments[k]) == 1)
-			env[i++] = ft_strdup(arguments[k]);
+			env[i++] = ft_strdup(arguments[k++]);
 		else if (is_equal_plus_str(arguments[k]) == 2)
-			env[i++] = ft_strdup(add_plus_string(old_env, arguments[k]));
-		k++;
+			env[i] = ft_strdup(add_plus_string(arguments[k++], 1));
+		else
+			k++;
 	}
 	env[i] = NULL;
 }
@@ -81,14 +69,28 @@ char	**get_new_env(char **old_env, char **arguments)
 	char	**env;
 
 	env = NULL;
-	if (old_env != NULL && !arguments[1])
-		env = get_env(NULL);
-	else if (old_env != NULL)
+	if (old_env != NULL)
 	{
-		env = malloc((size(old_env) + size(arguments)) * sizeof(char *));
+		env = malloc((size(old_env) + size(arguments) + 1) * sizeof(char *));
+		if (!env)
+			exit(1);
 		add_new_env(env, old_env, arguments);
 	}
 	env = reset_forbidden_env(env);
 	env = remove_duplicate(env);
 	return (env);
+}
+
+int	get_name_index(char *s1)
+{
+	int	i;
+
+	i = 0;
+	while (s1 && s1[i])
+	{
+		if (s1[i] == '+' || s1[i] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:43:34 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/07 10:18:02 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/13 06:54:26 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@ typedef struct node
 	char	*command;
 	char	**arguments;
 	int		output_file;
-}			m_node;
+	int		checker;
+}			t_node;
 
-enum				EXIT_STATUS
+typedef struct s_helper
+{
+	int	checker;
+	int	sh_lvl;
+}	t_helper;
+
+extern t_helper	g__helper;
+
+enum	e_exit_status
 {
 	M_SIG_INT = 78
 };
 
-enum				file_input
+enum	e_file_input
 {
 	NONE = -3,
 	NO_FILE = -1,
@@ -42,7 +51,6 @@ typedef struct s_tree
 	struct s_tree	*right;
 	struct node		*node;
 }					t_tree;
-
 
 typedef struct proccess
 {

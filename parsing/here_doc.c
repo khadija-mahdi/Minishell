@@ -6,11 +6,12 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:30:17 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/11 12:51:21 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <curses.h>
 
 char	*parse_input(char *line, int qute_flag)
 {
@@ -53,30 +54,48 @@ void	handle_here_doc(int fd, char *limiter, int flag)
 	exit(0);
 }
 
+char	*open_tmp_file(int *fd)
+{
+	char	*random;
+	char	*file_name;
+
+	random = random_string(10);
+	file_name = ft_strjoin("/tmp/", random);
+	free(random);
+	*fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	return (file_name);
+}
+
+void	her_doc_proccess(int fd, char *limiter, int flag)
+{
+	signal(SIGINT, here_doc_signal);
+	handle_here_doc(fd, limiter, flag);
+}
+
 int	here_doc(int flag, char *limiter)
 {
 	int		fd;
 	int		pid;
 	int		status;
-	char	*random;
 	char	*file_name;
 
-	random = random_string(10);
-	file_name = ft_strjoin("tmp/", random);
-	free(random);
-	fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (is_interrupted())
+		return (NO_FILE);
+	if (!limiter)
+		limiter = ft_strdup("");
+	file_name = open_tmp_file(&fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, here_doc_signal);
-		handle_here_doc(fd, limiter, flag);
-	}
+		her_doc_proccess(fd, limiter, flag);
 	close(fd);
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, handle_sigint);
 	if (WEXITSTATUS(status) != 0 && WEXITSTATUS(status) == M_SIG_INT)
+	{
+		set_interrupted(1);
 		return (NO_FILE);
+	}
 	free(limiter);
 	fd = open(file_name, O_RDONLY);
 	return (fd);

@@ -6,31 +6,13 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 08:42:19 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 08:52:56 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 16:13:53 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-int	is_builtins(m_node *node)
-{
-	if (ft_strcmp(node->command, "cd") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "echo") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "export") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "unset") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "exit") == 0)
-		return (1);
-	else if (ft_strcmp(node->command, "env") == 0)
-		return (1);
-	else
-		return (0);
-}
+t_helper	g__helper;
 
 void	path(char *paths, char **full_path, char *command)
 {
@@ -47,7 +29,7 @@ void	path(char *paths, char **full_path, char *command)
 			program = ft_strjoin("/", command);
 			*full_path = ft_strjoin(my_paths[j++], program);
 			free(program);
-			if (access(*full_path, F_OK) == 0)
+			if (access(*full_path, X_OK) == 0)
 				break ;
 			free(*full_path);
 			*full_path = NULL;
@@ -64,8 +46,10 @@ char	*get_command_path(char *command, char **env)
 
 	i = 0;
 	full_path = NULL;
-	if (access(command, F_OK) == 0)
+	if (access(command, X_OK) == 0)
 		return (command);
+	if ((!g__helper.checker) && access(ft_strjoin("/bin/", command), X_OK) == 0)
+		return (ft_strjoin("/bin/", command));
 	while (env && env[i])
 	{
 		paths = (ft_strnstr(env[i++], "PATH=", 5));
@@ -77,9 +61,7 @@ char	*get_command_path(char *command, char **env)
 char	*get_paths(char **env, char *command)
 {
 	char	*program_path;
-	char	**list ;
 
-	list = ft_split(command, ' ');
-	program_path = get_command_path(list[0], env);
+	program_path = get_command_path(command, env);
 	return (program_path);
 }

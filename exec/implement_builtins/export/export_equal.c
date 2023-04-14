@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:25:36 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 04:20:30 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:10:01 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ char	*add_quotes(char *str, int is_env)
 {
 	char	*new_string;
 	int		start;
-	int		len;
 	int		i;
 	int		j;
 
-	len = ft_strlen(str) + 3;
 	i = 0;
 	j = 0;
+	new_string = malloc((ft_strlen(str) + 3) * sizeof(char));
+	if (!new_string)
+		exit(1);
 	start = get_start(str);
-	new_string = malloc(len * sizeof(char));
 	while (j < start)
 	{
 		if (str[j] == '+')
@@ -50,6 +50,8 @@ char	*the_added_string(char	*n_exp, char **exp, char *n_str, int start)
 
 	len = ft_strlen(n_str) + ft_strlen(n_exp) + 3;
 	n_string = malloc(len * sizeof(char));
+	if (!n_string)
+		exit(1);
 	j = 0;
 	while (exp && n_exp && n_exp[j])
 		j++;
@@ -62,29 +64,40 @@ char	*the_added_string(char	*n_exp, char **exp, char *n_str, int start)
 	return (n_string);
 }
 
-char	*add_plus_string(char **export, char *new_str)
+char	*exist_string(char **export, char *new_str)
 {
+	char	*new_export;
 	int		i;
 	int		start;
-	int		is_equal;
+
+	i = 0;
+	new_export = NULL;
+	start = get_start(new_str);
+	while (export && export[i])
+	{
+		if (!ft_strncmp(export[i], new_str, start))
+			new_export = ft_strdup(export[i]);
+		i++;
+	}
+	return (new_export);
+}
+
+char	*add_plus_string(char *new_str, int is_export)
+{
+	int		start;
+	char	**export;
 	char	*new_string;
 	char	*new_export;
 
-	i = 0;
 	start = 0;
-	is_equal = -1;
 	new_str = add_quotes(new_str, 1);
 	start = get_start(new_str);
-	while (export[i])
-	{
-		if (!ft_strncmp(export[i], new_str, start))
-		{
-			new_export = ft_strdup(export[i]);
-			is_equal = 0;
-		}
-		i++;
-	}
-	if (!is_equal && new_export)
+	if (!is_export)
+		export = get_export(NULL);
+	else
+		export = get_env (NULL);
+	new_export = exist_string(export, new_str);
+	if (new_export)
 		new_string = the_added_string(new_export, export, new_str, start);
 	else
 		new_string = new_str;

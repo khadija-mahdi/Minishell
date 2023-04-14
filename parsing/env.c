@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:41:59 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 09:43:39 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**get_env(char **p)
 	if (p != NULL)
 	{
 		env = malloc((size(p) + 1) * sizeof(char *));
+		if (!env)
+			exit (1);
 		while (p[i])
 		{
 			env[i] = ft_strdup(p[i]);
@@ -42,9 +44,9 @@ char	*ft_getenv(char *name)
 	if (!name)
 		return (NULL);
 	env = get_env(NULL);
+	new_name = ft_strjoin(name, "=");
 	while (env[i])
 	{
-		new_name = ft_strjoin(name, "=");
 		value = ft_strnstr(env[i], new_name, ft_strlen(new_name));
 		if (value != NULL)
 		{
@@ -54,5 +56,6 @@ char	*ft_getenv(char *name)
 		}
 		i++;
 	}
+	free(new_name);
 	return (NULL);
 }

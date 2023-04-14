@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 00:20:37 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 08:21:02 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 13:14:25 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 
 void	add_new_env(char **env, char **old_env, char **arguments);
 char	**get_new_env(char **old_env, char **arguments);
-void	print_export(char **export, m_node *node);
-void	export_command(m_node *node, char **old_export, char	**old_env);
+void	export_command(t_node *node, char **old_export, char	**old_env);
 char	*add_quotes(char *str, int is_env);
-char	*add_plus_string(char **export, char *new_str);
+char	*add_plus_string(char *new_str, int is_export);
 int		is_value(char *argument);
 int		get_start(char *argument);
 int		is_equal_plus(char *argument);
@@ -34,11 +33,18 @@ char	**reset_forbidden_env(char **name);
 char	**reset(char **env, char **argument);
 char	**remove_duplicate(char **export);
 void	underscore_export(char **export);
-char	**export_underscore(char **export, m_node *node);
-char	*get_underscore(char **export, m_node *node);
+char	**export_underscore(char **export, t_node *node);
+char	*get_underscore(char **export, char **arguments);
 void	sorted_list(char **export, int len);
 void	remove_env(char **env);
 char	*change_env(char **env);
 char	*pwd_env(char **env);
-
+void	print_export(char **export, char **new_args);
+int		is_equal_plus_str(char *arg);
+char	**get_new_arguments(char **arguments);
+int		get_name_index(char *s1);
+char	*join_values(char *s1, char *s2);
+char	*shell_level(char **env);
+int		is_underscore(char **export);
+int comparison(char *s1, char *s2);
 #endif

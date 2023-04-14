@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 14:49:48 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 11:31:12 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 05:34:07 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ char	**unset_env(char **str, char **env)
 	return (tmp);
 }
 
-void	unset_command(m_node *node, char **env)
+void	unset_command(t_node *node, char **env)
 {
 	char	**new_env;
 
+	free_list(get_export(NULL));
 	new_env = unset_env(node->arguments, env);
 	get_env(new_env);
 	get_export(new_env);

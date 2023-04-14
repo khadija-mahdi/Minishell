@@ -6,47 +6,99 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 11:41:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:00:24 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-void	child_proccess(m_node *node, char **env)
+int	is_builtins(char *s)
+{
+	if (is_equal(s, "exit") || is_equal(s, "cd") || is_equal(s, "echo")
+		|| is_equal(s, "pwd") || is_equal(s, "export") || is_equal(s, "unset")
+		|| is_equal(s, "env") || is_equal(s, "EXIT") || is_equal(s, "CD")
+		|| is_equal(s, "ECHO") || is_equal(s, "PWD") 
+		|| is_equal(s, "EXPORT") || is_equal(s, "UNSET")
+		|| is_equal(s, "ENV"))
+		return (1);
+	return (0);
+}
+
+
+void	child_proccess(t_node *node, char **env, int pipes[2])
 {
 	char	*path;
 
-	if (node->arguments[0] == 0)
-		exit_msg("command not found \n", 127);
+	if (!node->command)
+	{
+		ft_putstr_fd(node->command, 2);
+		write(2, " minishell: :command not found \n", 32);
+		exit (127);
+	}
+	if (node->output_file != NONE && node->output_file != NO_FILE && node->output_file != ERROR)
+	{
+		if (dup2(node->output_file, 1) < 0)
+			exit_msg("DUP", 1);
+	}
+	if (node->input_file != NONE && node->input_file != NO_FILE && node->input_file != ERROR)
+	{
+		if (dup2(node->input_file, 0) < 0)
+			exit_msg("DUP", 1);
+	}
 	path = get_paths(env, node->arguments[0]);
-	if (path == NULL && !is_builtins(node))
+	if (is_child_builtins(node->command, node->arguments[1]))
 	{
-		printf("%s :", node->arguments[0]);
-		exit_msg("command not found \n", 127);
+		child_builtins(node);
+		exit (0);
 	}
-	if (is_builtins(node))
+	else if (!is_builtins(node->command))
 	{
-		builtins(node);
-		exit(0);
+		if (path == NULL )
+		{
+			ft_putstr_fd(node->command, 2);
+			write(2, " minishell: :command not found \n", 32);
+			exit (127);
+		}
+		else
+		{
+			close (pipes[0]);
+			execve(path, node->arguments, env);
+			perror("execve");
+		}
+		exit(1);
 	}
-	if (node->output_file != NONE && node->output_file != NO_FILE)
-		dup2(node->output_file, 1);
-	if (node->input_file != NONE && node->input_file != NO_FILE)
-		dup2(node->input_file, 0);
-	execve(path, node->arguments, env);
-	perror("execve");
-	exit(1);
+}
+
+void	update_n_values(t_node *node)
+{
+	char	**env;
+	char	**new;
+
+	env = get_env(NULL);
+	new = underscore_value(env, node);
+	new = remove_duplicate(new);
+	free_list(get_env(NULL));
+	get_env(new);
+	free_list(new);
 }
 
 void	parent_proccess(int num_commands, int pipes[2], int in)
 {
+	int	status;
+
 	while (num_commands--)
-		wait(NULL);
+		wait(&status);
 	close(pipes[0]);
-	close (in);
+	close(in);
+	if (WIFEXITED(status))
+		set_exit_status(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		set_exit_status(128 + WTERMSIG(status));
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	multiple_pipes(m_node *node, t_list *list, int num_commands)
+void	multiple_pipes(t_node *node, t_list *list, int num_commands)
 {
 	int		pipes[2];
 	int		i;
@@ -56,15 +108,34 @@ void	multiple_pipes(m_node *node, t_list *list, int num_commands)
 	i = 0;
 	while (list)
 	{
-		node = (m_node *) list->content;
+		node = (t_node *) list->content;
+		update_n_values(node);
 		pipe(pipes);
-		if (fork() == 0)
+		if (node->command && is_builtin(node->command, node->arguments[1]))
 		{
-			close(pipes[0]);
-			dup2(in, 0);
-			if (i < num_commands - 1)
-				dup2(pipes[1], 1);
-			child_proccess(node, get_env(NULL));
+			if (num_commands == 1)
+				builtins(node);
+		}
+		else
+		{
+			if (fork() == 0)
+			{
+				signal(SIGQUIT, SIG_DFL);
+				signal(SIGINT, SIG_DFL);
+				close(pipes[0]);
+				dup2(in, 0);
+				if (i < num_commands - 1)
+				{
+					dup2(pipes[1], 1);
+					close (pipes[1]);
+				}
+				child_proccess(node, get_env(NULL), pipes);
+			}
+			else
+			{
+				signal(SIGINT, handle_sigint_n_chld);
+				signal(SIGQUIT, child_quit);
+			}
 		}
 		close(pipes[1]);
 		in = pipes[0];

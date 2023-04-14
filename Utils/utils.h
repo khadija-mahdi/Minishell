@@ -13,6 +13,7 @@
 #ifndef UTILS_H
 # define UTILS_H
 # include "../includes/minishell.h"
+
 char	*m_safe_strjoin(char *s1, char *s2, int free_mode);
 char	*random_string(int len);
 int		is_equal(char *s, char *s2);
@@ -24,4 +25,6 @@ void	replace_b_slash(char *ptr);
 char	*get_full_line(char *line);
 int		get_exit_status(void);
 void	set_exit_status(int status_val);
+void	set_interrupted(int value);
+int		is_interrupted(void);
 #endif

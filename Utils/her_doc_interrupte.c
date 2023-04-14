@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   her_doc_interrupte.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitouna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 14:42:34 by aaitouna          #+#    #+#             */
-/*   Updated: 2022/10/14 14:42:35 by aaitouna         ###   ########.fr       */
+/*   Created: 2023/04/09 20:13:43 by aaitouna          #+#    #+#             */
+/*   Updated: 2023/04/09 20:13:44 by aaitouna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"./utils.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int	interrupted(int value)
 {
-	unsigned char	*cpy;
-	unsigned char	cc;
-	unsigned int	i;
+	static int	interrupted;
 
-	cpy = (unsigned char *)s;
-	cc = (unsigned char)c;
-	i = 0;
-	while (i < n)
-	{
-		if (cpy[i] == cc)
-			return ((void *)(s + i));
-		i++;
-	}
-	return (0);
+	if (value != -1)
+		interrupted = value;
+	return (interrupted);
+}
+
+void	set_interrupted(int value)
+{
+	interrupted(value);
+}
+
+int	is_interrupted(void)
+{
+	return (interrupted(-1));
 }

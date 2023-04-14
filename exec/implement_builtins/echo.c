@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:37:32 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/07 07:53:01 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/11 13:07:44 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int	is_newline(char *str)
 {
 	int	i;
 
-	i = 2;
+	i = 1;
 	while (str[0] == '-' && str[i] && str[i] == 'n')
 		i++;
-	if (str[i] == '\0')
+	if (str[i] == '\0' && str[i - 1] == 'n')
 		return (1);
 	return (0);
 }
 
-void	echo_command(m_node *node)
+void	echo_command(t_node *node)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ void	echo_command(m_node *node)
 			&& is_newline(node->arguments[i]))
 			i++;
 		while (node->arguments[i])
-			printf("%s ", node->arguments[i++]);
+			printf(" %s", node->arguments[i++]);
 		if ((!is_newline(node->arguments[1])))
 			printf("\n");
 	}

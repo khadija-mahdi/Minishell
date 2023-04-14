@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 19:10:46 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/14 09:51:14 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*ft_str_append(char *s, char c)
 	i = 0;
 	len = ft_strlen(s);
 	new_str = malloc((len + 3) * sizeof(char));
+	if (!new_str)
+		exit (0);
 	while (i < len)
 	{
 		new_str[i] = s[i];
@@ -69,7 +71,7 @@ char	*on_error_clear(char **new_str_spltd, char *env_value, char *new_str,
 	return (NULL);
 }
 
-char	*copy_string_t_args(char *s, m_node *node, int *index, int mode)
+char	*copy_string_t_args(char *s, t_node *node, int *index, int mode)
 {
 	int		qute_flag;
 	char	*new_str;
@@ -82,7 +84,11 @@ char	*copy_string_t_args(char *s, m_node *node, int *index, int mode)
 	while (s[*index] != 0 && (is_token_sep(s, *index) || qute_flag))
 	{
 		if (toggle_flag(s[*index], &qute_flag, index))
+		{
+			if(qute_flag != 0 && mode == 1)
+				new_str = ft_str_append(new_str, 0);
 			continue ;
+		}
 		if (is_n_escaped(s, '$', *index) && qute_flag != 1 && mode != 2)
 		{
 			if (qute_flag == 0 && mode == 0)
@@ -99,9 +105,8 @@ char	*copy_string_t_args(char *s, m_node *node, int *index, int mode)
 					if (size(new_str_spltd) > 1 && qute_flag == 0)
 						return (on_error_clear(new_str_spltd, env_value,
 								new_str, index));
-					new_str = mini_strjoin(new_str, env_value);
-					if (!env_value)
-						free(env_value);
+
+					new_str = m_safe_strjoin(new_str, env_value, 3);
 					free_list(new_str_spltd);
 				}
 				if (qute_flag == 2 && (s[*index] == '"' && qute_flag == 2))

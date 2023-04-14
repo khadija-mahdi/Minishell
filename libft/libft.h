@@ -14,12 +14,12 @@
 # define LIBFT_H
 # include <limits.h>
 # include <stdio.h>
-#include <stdint.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # include "get_next_line/get_next_line.h"
-#include "ft_printf/src/ft_printf.h"
+# include "ft_printf/src/ft_printf.h"
 
 typedef struct s_list
 {
@@ -73,4 +73,5 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+int					is_alphanum(int c);
 #endif
