@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 14:40:19 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:42:54 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	**update_env(char **env)
 		free(old_pwd);
 	}
 	free(n_pwd);
-	// free(pwd);
 	return (new_env);
 }
 
@@ -96,6 +95,8 @@ void	env_command(t_node *node, char **env)
 	int		i;
 
 	i = 0;
+	env = underscore_value(env, node);
+	env = remove_duplicate(env);
 	get_env (env);
 	if (env == NULL)
 		perror("env");

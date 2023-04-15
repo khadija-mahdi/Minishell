@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 17:00:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:37:42 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ int	is_builtins(char *s)
 	if (is_equal(s, "exit") || is_equal(s, "cd") || is_equal(s, "echo")
 		|| is_equal(s, "pwd") || is_equal(s, "export") || is_equal(s, "unset")
 		|| is_equal(s, "env") || is_equal(s, "EXIT") || is_equal(s, "CD")
-		|| is_equal(s, "ECHO") || is_equal(s, "PWD") 
+		|| is_equal(s, "ECHO") || is_equal(s, "PWD")
 		|| is_equal(s, "EXPORT") || is_equal(s, "UNSET")
 		|| is_equal(s, "ENV"))
 		return (1);
 	return (0);
 }
-
 
 void	child_proccess(t_node *node, char **env, int pipes[2])
 {
@@ -32,31 +31,36 @@ void	child_proccess(t_node *node, char **env, int pipes[2])
 	if (!node->command)
 	{
 		ft_putstr_fd(node->command, 2);
-		write(2, " minishell: :command not found \n", 32);
+		write(2, " :command not found \n", 22);
 		exit (127);
 	}
-	if (node->output_file != NONE && node->output_file != NO_FILE && node->output_file != ERROR)
+	if (node->output_file != NONE && node->output_file != NO_FILE
+		&& node->output_file != ERROR)
 	{
 		if (dup2(node->output_file, 1) < 0)
 			exit_msg("DUP", 1);
 	}
-	if (node->input_file != NONE && node->input_file != NO_FILE && node->input_file != ERROR)
+	if (node->input_file != NONE && node->input_file != NO_FILE
+		&& node->input_file != ERROR)
 	{
 		if (dup2(node->input_file, 0) < 0)
 			exit_msg("DUP", 1);
 	}
-	path = get_paths(env, node->arguments[0]);
+	if (is_builtins(node->command))
+		path = NULL;
+	else
+		path = get_paths(env, node->arguments[0]);
 	if (is_child_builtins(node->command, node->arguments[1]))
 	{
 		child_builtins(node);
 		exit (0);
 	}
-	else if (!is_builtins(node->command))
+	else
 	{
 		if (path == NULL )
 		{
 			ft_putstr_fd(node->command, 2);
-			write(2, " minishell: :command not found \n", 32);
+			write(2, " :command not found \n", 22);
 			exit (127);
 		}
 		else
@@ -67,19 +71,6 @@ void	child_proccess(t_node *node, char **env, int pipes[2])
 		}
 		exit(1);
 	}
-}
-
-void	update_n_values(t_node *node)
-{
-	char	**env;
-	char	**new;
-
-	env = get_env(NULL);
-	new = underscore_value(env, node);
-	new = remove_duplicate(new);
-	free_list(get_env(NULL));
-	get_env(new);
-	free_list(new);
 }
 
 void	parent_proccess(int num_commands, int pipes[2], int in)
@@ -109,7 +100,6 @@ void	multiple_pipes(t_node *node, t_list *list, int num_commands)
 	while (list)
 	{
 		node = (t_node *) list->content;
-		update_n_values(node);
 		pipe(pipes);
 		if (node->command && is_builtin(node->command, node->arguments[1]))
 		{

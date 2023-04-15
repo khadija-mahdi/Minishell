@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/14 16:19:05 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:48:12 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	tty(void)
 		parse(line, &list);
 		run_commands(list);
 		system ("leaks minishell");
-		ft_lstclear(&list, clear_node);
+		ft_lstclear(&list, clear_node); // sgv is cd ../..
 		free(line);
 	}
 }

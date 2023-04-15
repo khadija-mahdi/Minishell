@@ -6,24 +6,25 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 02:13:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 08:12:30 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:42:32 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
 
-int len_comparison(char *s1, char *s2)
-
+int	len_comparison(char *s1, char *s2)
 {
-	int index1 = get_name_index(s1);
-	int index2 = get_name_index (s2);
+	int	index1;
+	int	index2;
 
+	index1 = get_name_index(s1);
+	index2 = get_name_index (s2);
 	if ((index2 - index1) == 0 && !ft_strncmp(s1, s2, index2))
 		return (1);
 	return (0);
 }
 
-int	add_or_replace(char **arguments, char **new_arg, int j , int i)
+int	add_or_replace(char **arguments, char **new_arg, int j, int i)
 {
 	int	been_added;
 
@@ -85,31 +86,12 @@ char	*join_values(char *s1, char *s2)
 	return (re);
 }
 
-void	print_export(char **export, char **new_args)
-{
-	char	*value;
-	int		i;
-
-	i = 0;
-	while (export && export[i] && !new_args[1])
-	{
-		if (is_value(export[i]) && !is_underscore(export))
-		{
-			value = add_quotes(export[i], 0);
-			printf("declare -x %s\n", value);
-			free(value);
-		}
-		else
-			printf("declare -x %s\n", export[i]);
-		i++;
-	}
-}
-
 void	export_command(t_node *node, char	**old_export, char	**old_env)
 {
 	char	**export;
 	char	**env;
 	char	**new_args;
+	char	**new;
 
 	export = NULL;
 	env = NULL;

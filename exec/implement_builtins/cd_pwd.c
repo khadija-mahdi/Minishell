@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:45:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 15:27:37 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 09:46:34 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ void	pwd_command(void)
 	else
 		printf("%s\n", pwd);
 	free (pwd);
+}
+
+int	check_home(void)
+{
+	char	**env;
+
+	env = get_env(NULL);
+	while (env && *env)
+	{
+		if (!ft_strncmp(*env, "HOME", 4))
+			return (1);
+		env++;
+	}
+	return (0);
 }
 
 char	**cd_tilde(t_node *node)
@@ -73,9 +87,11 @@ void	cd(t_node *node)
 	free (pwd);
 }
 
-void	cd_command(t_node *node, char **env, char **export)
+void	cd_command(t_node *node)
 {
-	if (!node->arguments[1] || !strcmp(node->arguments[1], "~"))
+	if (!node->arguments[1] && !check_home())
+		printf("cd : HOME not set\n");
+	else if (!node->arguments[1] || !strcmp(node->arguments[1], "~"))
 		chdir(getenv("HOME"));
 	else
 		cd(node);

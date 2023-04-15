@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 05:13:18 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 13:48:03 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 09:52:14 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ char	**reset_forbidden_env(char **name)
 	return (env);
 }
 
-int comparison(char *s1, char *s2)
-
+int	comparison(char *s1, char *s2)
 {
-	int index1 = get_name_index(s1);
-	int index2 = get_name_index (s2);
+	int	index1;
+	int	index2;
+
+	index1 = get_name_index(s1);
+	index2 = get_name_index (s2);
 	if (index1 == -1)
 		index1 = ft_strlen(s1);
 	if (index2 == -1)
@@ -77,7 +79,8 @@ char	**reset(char **env, char **argument)
 			len = is_value(argument[i]);
 			if (!ft_strncmp(argument[i], "_=", 2))
 				i++;
-			else if (comparison(argument[i], *env) && is_equal_plus_str(argument[i]) == 1)
+			else if (comparison(argument[i], *env)
+				&& is_equal_plus_str(argument[i]) == 1)
 			{
 				printf("%s\n", *env);
 				remove_env(env);

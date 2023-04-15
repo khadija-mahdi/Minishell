@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:34:35 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/04 05:09:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:47:28 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ int	open_file(char *file_name, int open_flag, int input)
 	{
 		fd = open(file_name, open_flag, 0664);
 		if (fd == -1)
-		{
 			perror("-bash :");
-			free(open_tmp_file(&fd));
-		}
 	}
 	return (fd);
 }
@@ -73,6 +70,8 @@ int	open_input_file(char *line, int *i, int output)
 	open_flag = O_RDONLY;
 	file_name = get_input_value(&line[++(*i)], NULL, i, 1);
 	input_file = open_file(file_name, open_flag, output);
+	if (input_file == -1 && access(file_name, F_OK) != 0)
+		free(open_tmp_file(&input_file));
 	if (file_name != NULL)
 		free(file_name);
 	return (input_file);
