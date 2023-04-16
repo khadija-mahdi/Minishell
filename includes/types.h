@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:43:34 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/13 06:54:26 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 11:46:09 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef struct node
 {
+	int		i;
 	int		input_file;
 	char	*command;
 	char	**arguments;
@@ -64,4 +65,10 @@ typedef struct cp_flags
 	int	mode;
 	int	*index;
 }	t_cp_flags;
+
+typedef struct s_process
+{
+	int		pipes[2];
+	int		in;
+}	t_process;
 #endif

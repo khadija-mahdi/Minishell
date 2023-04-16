@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:08:19 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 07:37:57 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 11:47:29 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_strcmp(char *s1, char *s2)
 void	exit_msg(char *msg, int i)
 {
 	printf("%s", msg);
-	printf("killing by %d \n", i);
 	exit(i);
 }
 

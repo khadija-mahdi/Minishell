@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:09:53 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 10:29:15 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 11:44:57 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,20 @@ int	is_builtins(char *s)
 		|| is_equal(s, "ENV"))
 		return (1);
 	return (0);
+}
+
+void	redirection(t_node *node)
+{
+	if (node->output_file != NONE && node->output_file != NO_FILE
+		&& node->output_file != ERROR)
+	{
+		if (dup2(node->output_file, 1) < 0)
+			exit_msg("DUP", 1);
+	}
+	if (node->input_file != NONE && node->input_file != NO_FILE
+		&& node->input_file != ERROR)
+	{
+		if (dup2(node->input_file, 0) < 0)
+			exit_msg("DUP", 1);
+	}
 }
