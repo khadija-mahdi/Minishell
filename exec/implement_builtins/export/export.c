@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:40:48 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:48:10 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ char	**get_new_export(char **old_export, char **str)
 		add_new_export(export, old_export, str);
 	}
 	clean_ex = remove_duplicate(export);
-	free_list (export); 
+	free_list (export);
 	return (clean_ex);
 }

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:40:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:49:00 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	add_new_env(char **env, char **old_env, char **arguments)
 char	**get_new_env(char **old_env, char **arguments)
 {
 	char	**env;
-	char **clean_env;
-	
+	char	**clean_env;
+
 	env = NULL;
 	if (old_env != NULL)
 	{
@@ -98,6 +98,4 @@ int	get_name_index(char *s1)
 	}
 	return (-1);
 }
-
 // forbidden function a khadija :();;;!!!!!!!!!!!!!!
-// export a=a a+=a +AASDAS a=====

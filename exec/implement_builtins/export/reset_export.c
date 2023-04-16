@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 05:13:18 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:04:15 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:52:25 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,26 @@ char	**reset(char **env, char **argument)
 	new_env = NULL;
 	while (env && env[i])
 	{
-        j = i + 1;
-		duplicate= 0;
+		j = i + 1;
+		duplicate = 0;
 		while (env[j])
 		{
 			if (comparison(env[i], env[j])
 				&& is_equal_plus_str(argument[i]) == 1)
 			{
-                duplicate = 1;
+				duplicate = 1;
 				break ;
 			}
-            j++;
+			j++;
 		}
 		if (!duplicate)
-            new_env = append(new_env, strdup(env[i]));
-        i++;
+			new_env = append(new_env, strdup(env[i]));
+		i++;
 	}
-	
 	return (new_env);
 }
 
-char **remove_duplicate(char **export)
+char	**remove_duplicate(char **export)
 {
 	char	**new_export;
 	int		i;
@@ -101,24 +100,23 @@ char **remove_duplicate(char **export)
 	new_export = NULL;
 	while (export && export[i])
 	{
-        j = i + 1;
-		duplicate= 0;
+		j = i + 1;
+		duplicate = 0;
 		while (export && export[j])
 		{
 			if (comparison(export[i], export[j]))
 			{
-                duplicate = 1;
+				duplicate = 1;
 				break ;
 			}
             j++;
 		}
 		if (!duplicate)
-            new_export = append(new_export, ft_strdup(export[i]));
-        i++;
+			new_export = append(new_export, ft_strdup(export[i]));
+		i++;
 	}
 	return (new_export);
 }
-
 
 char	**remove_duplicate_old(char **export)
 {

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:25:36 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:37:27 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:49:30 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*add_quotes(char *str, int is_env)
 	return (new_string);
 }
 
-char	*the_added_string(char	*n_exp,char *n_str, int start)
+char	*the_added_string(char	*n_exp, char *n_str, int start)
 {
 	char	*n_string;
 	int		len;

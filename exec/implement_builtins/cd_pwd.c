@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:45:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:02:20 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:47:57 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	cd(t_node *node)
 	char		*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (node->arguments[1] && stat(node->arguments[1], &sb) == 0 && S_ISDIR(sb.st_mode))
+	if (node->arguments[1] && stat(node->arguments[1], &sb) == 0
+		&& S_ISDIR(sb.st_mode))
 		chdir(node->arguments[1]);
 	else if (node->arguments[1] && S_ISREG(sb.st_mode))
 		printf("cd: %s: Not a directory\n", node->arguments[1]);

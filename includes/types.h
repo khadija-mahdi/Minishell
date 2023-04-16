@@ -58,4 +58,10 @@ typedef struct proccess
 	int	*proccess;
 }	t_proccess;
 
+typedef struct cp_flags
+{
+	int	*qute_flag;
+	int	mode;
+	int	*index;
+}	t_cp_flags;
 #endif

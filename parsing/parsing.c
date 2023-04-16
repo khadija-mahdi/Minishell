@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/16 05:44:52 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:46:50 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ void	parse(char *line, t_list **list)
 		else
 			get_input_value(&line[i], node, &i, 0);
 	}
-	node->command = lower_case(node->command);
-	if (node->arguments)
-		node->arguments[0] = lower_case(node->arguments[0]);
 	ft_lstadd_back(list, ft_lstnew(node));
 	if (line[i] && line[i] == '|')
 		parse(&line[++i], list);
@@ -112,7 +109,7 @@ void	tty(void)
 		parse(line, &list);
 		run_commands(list);
 		ft_lstclear(&list, clear_node); // sgv is cd ../..
-		free(lmaine);
-		system ("leaks minishell");
+		free(line);
+		system("leaks minishell");
 	}
 }

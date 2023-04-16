@@ -32,4 +32,3 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	tty();
 }
-
