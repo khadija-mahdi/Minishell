@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 14:49:48 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:47:02 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 06:38:20 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,51 +26,50 @@ int	is_forbidden_unset(char *str)
 	return (0);
 }
 
-void	unset_arguments(char **str, char **env, int i)
+char	**unset_arguments(char **env, char **str)
 {
-	int	env_index;
+	char	**new_env;
+	int		i;
+	int		j;
+	int		duplicate;
 
-	env_index = 0;
-	while (env[env_index])
+	i = -1;
+	new_env = NULL;
+	while (env && env[++i])
 	{
-		if (!ft_strncmp(env[env_index], str[i], ft_strlen(env[env_index])))
+		j = 1;
+		duplicate = 0;
+		while (str && str[j])
 		{
-			printf("unset: '%s' : not a valid identifier\n", str[i]);
-			break ;
+			if ((!ft_strncmp(env[i], str[j], ft_strlen(str[j]))
+					&& env[i][ft_strlen(str[j])] == '='))
+			{
+				duplicate = 1;
+				break ;
+			}
+			j++;
 		}
-		if ((str && str[i]) && !ft_strncmp(env[env_index], \
-			str[i], ft_strlen(str[i]))
-			&& env[env_index][ft_strlen(str[i])] == '=')
-			remove_env(env + env_index);
-		env_index++;
+		if (!duplicate)
+			new_env = append(new_env, ft_strdup(env[i]));
 	}
+	return (new_env);
 }
 
-void	unset_valid(char **str, char **env)
+char	**unset_env(char **env, char **str)
 {
-	int	i;
+	char	**tmp;
+	int		i;
 
 	i = 1;
 	while (str && str[i])
 	{
-		if (str[i][0] == '#')
-			break ;
 		if ((str && str[i]) && (!ft_isalpha(str[i][0])
 			|| (is_forbidden_unset(str[i]))))
-		{
-			printf("unset: '%s' : not a valid identifier\n", str[i++]);
-			continue ;
-		}
-		unset_arguments(str, env, i++);
+			printf("unset: '%s' : not a valid identifier\n", str[i]);
+		i++;
 	}
-}
-
-char	**unset_env(char **str, char **env)
-{
-	char	**tmp;
-
-	tmp = env;
-	unset_valid(str, env);
+	tmp = unset_arguments(env, str);
+	free_list(env);
 	return (tmp);
 }
 
@@ -79,7 +78,7 @@ void	unset_command(t_node *node, char **env)
 	char	**new_env;
 
 	free_list(get_export(NULL));
-	new_env = unset_env(node->arguments, env);
+	new_env = unset_env(env, node->arguments);
 	get_env(new_env);
 	get_export(new_env);
 	free_list(new_env);

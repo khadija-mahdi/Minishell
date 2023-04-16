@@ -6,45 +6,35 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 02:33:35 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 07:39:28 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-int	is_high_shlvl(char **env)
+char	**remove_var(char **env, char *var)
 {
-	char		*shell_lvl;
-	char		*shlvl_value;
-	static int	len = 1;
-	int			i;
+	char	**new_env;
+	int		i;
 
-	i = 0;
-	shell_lvl = NULL;
-	while (env && env[i])
+	i = -1;
+	new_env = NULL;
+	while (env && env[++i])
 	{
-		if (!ft_strncmp(env[i], "SHLVL", 5))
-		{
-			shell_lvl = ft_strdup(env[i]);
-			break ;
-		}
-		i++;
+		if (ft_strncmp(env[i], var, ft_strlen(var)))
+			new_env = append(new_env, ft_strdup(env[i]));
 	}
-	if (shell_lvl)
-		i = get_start(shell_lvl);
-	shlvl_value = ft_substr(shell_lvl, i, ft_strlen(shell_lvl));
-	len = ft_atoi(shlvl_value);
-	printf("len %d %s \n ", len, shell_lvl);
-	free (shell_lvl);
-	free (shlvl_value);
-	return (len);
+	return (new_env);
 }
 
-void	change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
+char	**change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
 {
-	int	i;
+	int		i;
+	char	**tmp;
 
 	i = 0;
+	tmp = remove_var(env, "OLDPWD");
+	env = tmp;
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], "PWD", 2))
@@ -60,6 +50,7 @@ void	change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
 	new_env[i] = ft_strdup(old_pwd);
 	new_env[++i] = NULL;
 	free(old_pwd);
+	return (new_env);
 }
 
 char	**update_env(char **env)
@@ -78,7 +69,7 @@ char	**update_env(char **env)
 		new_env = malloc((size(env) + 2) * sizeof(char *));
 		if (!new_env)
 			exit(1);
-		change_old_pwd(env, new_env, pwd, old_pwd);
+		new_env = change_old_pwd(env, new_env, pwd, old_pwd);
 	}
 	free(n_pwd);
 	return (new_env);

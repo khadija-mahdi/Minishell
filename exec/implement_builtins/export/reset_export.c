@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 05:13:18 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:52:25 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 07:41:03 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ char	**reset_forbidden_env(char **name)
 	return (env);
 }
 
-int	comparison(char *s1, char *s2)
-{
-	int	index1;
-	int	index2;
-
-	index1 = get_name_index(s1);
-	index2 = get_name_index (s2);
-	if (index1 == -1)
-		index1 = ft_strlen(s1);
-	if (index2 == -1)
-		index2 = ft_strlen(s2);
-	if ((index2 - index1) == 0 && !ft_strncmp(s1, s2, index2))
-		return (1);
-	return (0);
-}
-
 char	**reset(char **env, char **argument)
 {
 	char	**new_env;
@@ -66,9 +50,9 @@ char	**reset(char **env, char **argument)
 	int		j;
 	int		duplicate;
 
-	i = 0;
+	i = 1;
 	new_env = NULL;
-	while (env && env[i])
+	while (env && env[++i])
 	{
 		j = i + 1;
 		duplicate = 0;
@@ -84,7 +68,6 @@ char	**reset(char **env, char **argument)
 		}
 		if (!duplicate)
 			new_env = append(new_env, strdup(env[i]));
-		i++;
 	}
 	return (new_env);
 }
@@ -109,7 +92,7 @@ char	**remove_duplicate(char **export)
 				duplicate = 1;
 				break ;
 			}
-            j++;
+			j++;
 		}
 		if (!duplicate)
 			new_export = append(new_export, ft_strdup(export[i]));

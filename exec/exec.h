@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:11:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/15 08:38:07 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 06:56:55 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ char	**check_arguments(char **arguments);
 int		is_add_plus_str(char *argument);
 int		is_builtins(char *s);
 void	child_builtins(t_node *node);
-
+char	**unset_arguments(char **env, char **str);
 #endif

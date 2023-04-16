@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 01:21:20 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 01:21:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 07:40:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,34 @@ void	underscore_export(char **export)
 		else
 			export++;
 	}
+}
+
+int	is_high_shlvl(char **env)
+{
+	char		*shell_lvl;
+	char		*shlvl_value;
+	static int	len = 1;
+	int			i;
+
+	i = 0;
+	shell_lvl = NULL;
+	while (env && env[i])
+	{
+		if (!ft_strncmp(env[i], "SHLVL", 5))
+		{
+			shell_lvl = ft_strdup(env[i]);
+			break ;
+		}
+		i++;
+	}
+	if (shell_lvl)
+		i = get_start(shell_lvl);
+	shlvl_value = ft_substr(shell_lvl, i, ft_strlen(shell_lvl));
+	len = ft_atoi(shlvl_value);
+	printf("len %d %s \n ", len, shell_lvl);
+	free (shell_lvl);
+	free (shlvl_value);
+	return (len);
 }
 
 char	*get_underscore(char **export, char **arguments)
@@ -50,7 +78,6 @@ char	*change_env(char **env)
 
 	old_pwd = NULL;
 	is_exist = -1;
-	remove_ptr(env, "OLDPWD");
 	while (env && *env)
 	{
 		if (!ft_strncmp(*env, "PWD", 3))
