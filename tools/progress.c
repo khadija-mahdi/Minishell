@@ -55,23 +55,11 @@ int	ft_atoi(const char *str)
 	return (count(str, sym));
 }
 
-int	main(int ac, char **av)
+void	progress(double percentage, int value, int total)
 {
-	int		value;
-	int		total;
-	double	percentage;
-	int		i;
+	int	i;
 
-	if (ac < 3)
-		return (0);
 	i = 0;
-	value = ft_atoi(av[1]);
-	total = ft_atoi(av[2]);
-	percentage = (((float)value) / ((float)total));
-	if (percentage > 1)
-		percentage = 1;
-	if (value == 1)
-		printf("Comopiling necessary .c file \n\n");
 	printf("\033[A\33[2K\r");
 	printf("\r      "CYAN);
 	while (i++ < value)
@@ -82,5 +70,23 @@ int	main(int ac, char **av)
 	if (value >= total)
 		printf("\n\tDone.\n");
 	printf("\n");
+}
+
+int	main(int ac, char **av)
+{
+	int		value;
+	int		total;
+	double	percentage;
+
+	if (ac < 3)
+		return (0);
+	value = ft_atoi(av[1]);
+	total = ft_atoi(av[2]);
+	percentage = (((float)value) / ((float)total));
+	if (percentage > 1)
+		percentage = 1;
+	if (value == 1)
+		printf("Comopiling necessary .c file \n\n");
+	progress(percentage, value, total);
 	return (0);
 }
