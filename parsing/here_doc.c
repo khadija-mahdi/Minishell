@@ -97,7 +97,5 @@ int	here_doc(int flag, char *limiter)
 		return (NO_FILE);
 	}
 	free(limiter);
-	fd = open(file_name, O_RDONLY);
-	free(file_name);
-	return (fd);
+	return (return_fd(file_name));
 }

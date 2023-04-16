@@ -1,6 +1,7 @@
 src = parsing/parsing.c\
         parsing/parsing_utils.c\
         parsing/copy_str.c \
+		parsing/copy_str_helpers.c \
         parsing/expand_functions.c \
         parsing/t_node.c \
         parsing/strings_functions.c\

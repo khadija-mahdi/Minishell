@@ -30,3 +30,12 @@ int	is_interrupted(void)
 {
 	return (interrupted(-1));
 }
+
+int	return_fd(char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY);
+	free(file_name);
+	return (fd);
+}

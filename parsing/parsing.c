@@ -61,9 +61,6 @@ void	parse(char *line, t_list **list)
 		else
 			get_input_value(&line[i], node, &i, 0);
 	}
-	node->command = lower_case(node->command);
-	if (node->arguments)
-		node->arguments[0] = lower_case(node->arguments[0]);
 	ft_lstadd_back(list, ft_lstnew(node));
 	if (line[i] && line[i] == '|')
 		parse(&line[++i], list);
@@ -85,7 +82,6 @@ void	run_commands(t_list *list)
 		exec(list);
 	else
 		write(1, "\n", 1);
-	system ("leaks minishell");
 }
 
 void	tty(void)
@@ -112,8 +108,9 @@ void	tty(void)
 		add_history(line);
 		parse(line, &list);
 		run_commands(list);
+		printf_list(list);
 		system ("leaks minishell");
-		ft_lstclear(&list, clear_node); // sgv is cd ../..
+		ft_lstclear(&list, clear_node);
 		free(line);
 	}
 }

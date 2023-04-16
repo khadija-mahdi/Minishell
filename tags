@@ -69,7 +69,7 @@ add_arg_t_node	parsing/parsing_utils.c	/^void	add_arg_t_node(t_node *node, char 
 add_new_env	exec/implement_builtins/export/export_env.c	/^void	add_new_env(char **env, char **old_env, char **arguments)$/;"	f
 add_new_export	exec/implement_builtins/export/export.c	/^void	add_new_export(char **export, char **old_export, char **arguments)$/;"	f
 add_or_replace	exec/implement_builtins/export/main_export.c	/^int	add_or_replace(char **arguments, char **new_arg, int j, int i)$/;"	f
-add_plus_string	exec/implement_builtins/export/export_equal.c	/^char	*add_plus_string(char *new_str, int is_export)$/;"	f
+add_plus_string	exec/implement_builtins/export/export_equal.c	/^char	*add_plus_string(char *n_str, int is_export)$/;"	f
 add_quotes	exec/implement_builtins/export/export_equal.c	/^char	*add_quotes(char *str, int is_env)$/;"	f
 append	Utils/Strings.c	/^char	**append(char **Strings, char *String)$/;"	f
 arguments	includes/types.h	/^	char	**arguments;$/;"	m	struct:node
@@ -82,6 +82,7 @@ cd	exec/implement_builtins/cd_pwd.c	/^void	cd(t_node *node)$/;"	f
 cd_command	exec/implement_builtins/cd_pwd.c	/^void	cd_command(t_node *node)$/;"	f
 cd_tilde	exec/implement_builtins/cd_pwd.c	/^char	**cd_tilde(t_node *node)$/;"	f
 change_env	exec/implement_builtins/export/underscore_env.c	/^char	*change_env(char **env)$/;"	f
+change_old_pwd	exec/implement_builtins/env.c	/^void	change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)$/;"	f
 check_home	exec/implement_builtins/cd_pwd.c	/^int	check_home(void)$/;"	f
 check_if_is_the_one	libft/ft_strnstr.c	/^static char	*check_if_is_the_one(const char *little, const char *big,$/;"	f	file:
 check_redirections_syntax	parsing/syntax/syntax.c	/^char	check_redirections_syntax(char *line)$/;"	f
@@ -104,6 +105,7 @@ copy_variable_value	parsing/expand_functions.c	/^char	*copy_variable_value(char 
 count	libft/ft_atoi.c	/^static int	count(const char *str, int sym)$/;"	f	file:
 count	tools/progress.c	/^static int	count(const char *str, int sym)$/;"	f	file:
 count_litters	parsing/split_by_set.c	/^static size_t	count_litters(const char *s, char *c)$/;"	f	file:
+cp_flags	includes/types.h	/^typedef struct cp_flags$/;"	s
 cpy	libft/get_next_line/get_next_line_utils.c	/^void	cpy(char *holder, char *cursor, char *n_holder)$/;"	f
 e_exit_status	includes/types.h	/^enum	e_exit_status$/;"	g
 e_file_input	includes/types.h	/^enum	e_file_input$/;"	g
@@ -207,6 +209,7 @@ get_world_len	libft/ft_split.c	/^int	get_world_len(char const *sm, char c)$/;"	f
 gt_strchr	libft/get_next_line/get_next_line_utils.c	/^char	*gt_strchr(const char *s, int c)$/;"	f
 gt_strjoin	libft/get_next_line/get_next_line_utils.c	/^char	*gt_strjoin(char *holder, char *cursor)$/;"	f
 gt_strlen	libft/get_next_line/get_next_line_utils.c	/^size_t	gt_strlen(const char *c)$/;"	f
+handle_expanding	parsing/copy_str.c	/^int	handle_expanding(t_cp_flags *cp_flags, char **new_str,$/;"	f
 handle_here_doc	parsing/here_doc.c	/^void	handle_here_doc(int fd, char *limiter, int flag)$/;"	f
 handle_sigint	parsing/Signals.c	/^void	handle_sigint(int sig)$/;"	f
 handle_sigint_n_chld	parsing/Signals.c	/^void	handle_sigint_n_chld(int sig)$/;"	f
@@ -216,6 +219,8 @@ her_doc_proccess	parsing/here_doc.c	/^void	her_doc_proccess(int fd, char *limite
 here_doc	parsing/here_doc.c	/^int	here_doc(int flag, char *limiter)$/;"	f
 here_doc_signal	parsing/Signals.c	/^void	here_doc_signal(int sig)$/;"	f
 incldlib	makefile	/^incldlib        := -I\/Users\/${USER}\/homebrew\/opt\/readline\/include$/;"	m
+index	includes/types.h	/^	int	*index;$/;"	m	struct:cp_flags
+init_flags	parsing/copy_str_helpers.c	/^t_cp_flags	*init_flags(int mode, int *qute_flag, int *index_ptr)$/;"	f
 input_file	includes/types.h	/^	int		input_file;$/;"	m	struct:node
 interrupted	Utils/her_doc_interrupte.c	/^int	interrupted(int value)$/;"	f
 is_add_plus_str	exec/implement_builtins/export/export.c	/^int	is_add_plus_str(char *argument)$/;"	f
@@ -255,6 +260,7 @@ main	tools/progress.c	/^int     main(int ac, char **av)$/;"	f
 main_obj	makefile	/^main_obj                := $(patsubst %.c,$(OBJ_DIR)\/%.o,$(main))$/;"	m
 manage_here_doc	parsing/syntax/syntax.c	/^void	manage_here_doc(char *line, int pos)$/;"	f
 mini_strjoin	parsing/strings_functions.c	/^char	*mini_strjoin(char const *s1, char const *s2)$/;"	f
+mode	includes/types.h	/^	int	mode;$/;"	m	struct:cp_flags
 multiple_pipes	exec/pipes/piping.c	/^void	multiple_pipes(t_node *node, t_list *list, int num_commands)$/;"	f
 necessary_values	exec/exec.c	/^char	**necessary_values(char **env, int is_env)$/;"	f
 new_t_node	parsing/t_node.c	/^t_node	*new_t_node(void)$/;"	f
@@ -265,7 +271,7 @@ node	includes/types.h	/^typedef struct node$/;"	s
 numeric_required	exec/implement_builtins/exit.c	/^void	numeric_required(t_node *node, int len)$/;"	f
 obj	makefile	/^obj                             := $(patsubst %.c,$(OBJ_DIR)\/%.o,$(src))$/;"	m
 on_error	libft/get_next_line/get_next_line.c	/^void	on_error(char *cursor, char *holder)$/;"	f
-on_error_clear	parsing/copy_str.c	/^char	*on_error_clear(char **new_str_spltd, char *env_value, char *new_str,$/;"	f
+on_error_clear	parsing/copy_str_helpers.c	/^int	on_error_clear(t_cp_flags *cp_flags, char *env_value, char *new_str,$/;"	f
 op	includes/types.h	/^	int				op;$/;"	m	struct:s_tree
 open_file	parsing/files.c	/^int	open_file(char *file_name, int open_flag, int input)$/;"	f
 open_input_file	parsing/files.c	/^int	open_input_file(char *line, int *i, int output)$/;"	f
@@ -291,6 +297,7 @@ printf_list	parsing/print.c	/^void	printf_list(t_list *list)$/;"	f
 proccess	includes/types.h	/^	int	*proccess;$/;"	m	struct:proccess
 proccess	includes/types.h	/^typedef struct proccess$/;"	s
 pwd_command	exec/implement_builtins/cd_pwd.c	/^void	pwd_command(void)$/;"	f
+qute_flag	includes/types.h	/^	int	*qute_flag;$/;"	m	struct:cp_flags
 random_string	Utils/random.c	/^char	*random_string(int len)$/;"	f
 remove_duplicate	exec/implement_builtins/export/reset_export.c	/^char	**remove_duplicate(char **export)$/;"	f
 remove_env	exec/exec.c	/^void	remove_env(char **env)$/;"	f
@@ -298,7 +305,10 @@ remove_ptr	exec/exec.c	/^void	remove_ptr(char **env, char *ptr)$/;"	f
 replace_b_slash	Utils/full_line.c	/^void	replace_b_slash(char *ptr)$/;"	f
 reset	exec/implement_builtins/export/reset_export.c	/^char	**reset(char **env, char **argument)$/;"	f
 reset_forbidden_env	exec/implement_builtins/export/reset_export.c	/^char	**reset_forbidden_env(char **name)$/;"	f
+reset_qute_flag	parsing/copy_str_helpers.c	/^void	reset_qute_flag(t_cp_flags *cp_flags, char *s)$/;"	f
+return_fd	Utils/her_doc_interrupte.c	/^int	return_fd(char *file_name)$/;"	f
 return_function	parsing/expand_functions.c	/^char	*return_function(int name_len, char *name, char *dst)$/;"	f
+return_value	parsing/copy_str_helpers.c	/^char	*return_value(int mode, t_node *node, char *new_str)$/;"	f
 right	includes/types.h	/^	struct s_tree	*right;$/;"	m	struct:s_tree	typeref:struct:s_tree::s_tree
 run_commands	parsing/parsing.c	/^void	run_commands(t_list *list)$/;"	f
 s_helper	includes/types.h	/^typedef struct s_helper$/;"	s
@@ -309,6 +319,7 @@ set_interrupted	Utils/her_doc_interrupte.c	/^void	set_interrupted(int value)$/;"
 sh_lvl	includes/types.h	/^	int	sh_lvl;$/;"	m	struct:s_helper
 shell_level	exec/implement_builtins/export/export_env.c	/^char	*shell_level(char **env)$/;"	f
 size	Utils/Strings.c	/^size_t	size(char **ptr)$/;"	f
+size_of_env_parts	parsing/copy_str_helpers.c	/^int	size_of_env_parts(char *env_value)$/;"	f
 sorted_list	exec/implement_builtins/export/export.c	/^void	sorted_list(char **export, int len)$/;"	f
 spaces_count	parsing/parsing_utils.c	/^int	spaces_count(char *s)$/;"	f
 split_by_set	parsing/split_by_set.c	/^char	**split_by_set(char const *s, char *set)$/;"	f
@@ -319,6 +330,7 @@ status	Utils/status.c	/^int	status(int a)$/;"	f
 string_exists	exec/implement_builtins/export/reset_export.c	/^int	string_exists(char **export, int n, char *argument, int len)$/;"	f
 string_list_len	parsing/strings_functions.c	/^size_t	string_list_len(char **list)$/;"	f
 syntax_here_doc	parsing/syntax/syntax.c	/^int	syntax_here_doc(int flag, char *limiter)$/;"	f
+t_cp_flags	includes/types.h	/^}	t_cp_flags;$/;"	t	typeref:struct:cp_flags
 t_helper	includes/types.h	/^}	t_helper;$/;"	t	typeref:struct:s_helper
 t_list	libft/libft.h	/^}					t_list;$/;"	t	typeref:struct:s_list
 t_node	includes/types.h	/^}			t_node;$/;"	t	typeref:struct:node
