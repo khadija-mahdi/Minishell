@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitouna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 20:23:34 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/09 20:23:36 by aaitouna         ###   ########.fr       */
+/*   Updated: 2023/04/16 10:31:36 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ char	*m_safe_strjoin(char *s1, char *s2, int free_mode)
 {
 	char	*str;
 
-	if(!s1)
+	if (!s1)
 		s1 = ft_strdup("");
-	if(!s2)
+	if (!s2)
 		s2 = ft_strdup("");
 	str = ft_strjoin(s1, s2);
 	if (free_mode == 1 || free_mode == 3)

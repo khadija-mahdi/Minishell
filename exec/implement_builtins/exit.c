@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:33:11 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 07:54:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 10:38:16 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	is_max_min(char *str)
 
 	len = get_nub_len(str);
 	check = -1;
-	if (strcmp(str, "-9223372036854775807") == 0
-		|| strcmp(str, "-9223372036854775808") == 0)
+	if (ft_strcmp(str, "-9223372036854775807") == 0
+		|| ft_strcmp(str, "-9223372036854775808") == 0)
 	{
 		status = ft_atoi(str);
 		exit_msg("exit\n", status);
 	}
-	else if ((str[0] == '-' ) && (strcmp(str, "-9223372036854775809") == 0
-			|| (len == 19 && !strncmp(str, "-922337203685477580", len)
+	else if ((str[0] == '-' ) && (ft_strcmp(str, "-9223372036854775809") == 0
+			|| (len == 19 && !ft_strncmp(str, "-922337203685477580", len)
 				&& !f_isdigit(str[len]))))
 		check = 0;
-	else if ((strcmp(str, "9223372036854775808") == 0)
+	else if ((ft_strcmp(str, "9223372036854775808") == 0)
 		|| (len == 19 && (!(strncmp(str, "922337203685477580", len - 1)
 					&& f_isdigit(str[len - 1])))))
 		check = 0;
@@ -93,7 +93,7 @@ void	exit_command(t_node *node)
 		printf("exit\nexit: too many arguments\n");
 		return ;
 	}
-	else if (strcmp(node->arguments[1], "0") == 0 && !node->arguments[2])
+	else if (ft_strcmp(node->arguments[1], "0") == 0 && !node->arguments[2])
 		exit_msg("exit\n", 0);
 	else if (node->arguments[2] && (ft_atoi(node->arguments[1])) == 0)
 	{

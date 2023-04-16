@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:24 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 04:33:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 10:36:30 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	builtins(t_node *node)
 
 	export = get_export(NULL);
 	env = get_env(NULL);
-	if (!strcmp(node->command, "exit") || !strcmp(node->command, "EXIT"))
+	if (!ft_strcmp(node->command, "exit") || !ft_strcmp(node->command, "EXIT"))
 		exit_command(node);
 	if (!ft_strcmp(node->command, "cd") || !ft_strcmp(node->command, "CD"))
 		cd_command(node);

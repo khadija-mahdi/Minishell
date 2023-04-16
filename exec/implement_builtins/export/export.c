@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 09:08:17 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 10:38:24 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	sorted_list(char **export, int len)
 		j = 0;
 		while (j < len - i - 1)
 		{
-			if (strcmp(export[j], export[j + 1]) > 0)
+			if (ft_strcmp(export[j], export[j + 1]) > 0)
 			{
 				temp = export[j];
 				export[j] = export[j + 1];
