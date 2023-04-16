@@ -6,23 +6,11 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 02:13:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:32:27 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 09:08:03 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
-
-int	len_comparison(char *s1, char *s2)
-{
-	int	index1;
-	int	index2;
-
-	index1 = get_name_index(s1);
-	index2 = get_name_index (s2);
-	if ((index2 - index1) == 0 && !ft_strncmp(s1, s2, index2))
-		return (1);
-	return (0);
-}
 
 int	add_or_replace(char **arguments, char **new_arg, int j, int i)
 {
@@ -88,6 +76,19 @@ char	*join_values(char *s1, char *s2)
 	return (re);
 }
 
+void	export_environment(char **export, char **new_args)
+{
+	char	**tmp;
+
+	tmp = get_new_export(export, new_args);
+	free_list(export);
+	export = tmp;
+	sorted_list(export, size(export));
+	free_list(get_export(NULL));
+	get_export(export);
+	free_list(export);
+}
+
 void	export_command(t_node *node, char	**old_export, char	**old_env)
 {
 	char	**export;
@@ -98,18 +99,12 @@ void	export_command(t_node *node, char	**old_export, char	**old_env)
 	export = NULL;
 	env = NULL;
 	new_args = get_new_arguments(node->arguments);
-	printf_arg(new_args);
 	if (new_args)
 	{
 		env = reset(old_env, new_args);
 		export = reset(old_export, new_args);
 	}
-	tmp = get_new_export(export, new_args);
-	free_list(export);
-	export = tmp;
-	sorted_list(export, size(export));
-	free_list(get_export(NULL));
-	get_export(export);
+	export_environment(export, new_args);
 	tmp = get_new_env(env, new_args);
 	free_list(env);
 	env = tmp;
@@ -117,5 +112,4 @@ void	export_command(t_node *node, char	**old_export, char	**old_env)
 	free_list(get_env(NULL));
 	get_env(env);
 	free_list (env);
-	free_list(export);
 }

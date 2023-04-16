@@ -40,6 +40,7 @@ src = parsing/parsing.c\
         exec/implement_builtins/builtins.c\
         exec/pipes/get_path.c \
         exec/pipes/piping.c\
+        exec/pipes/utils.c\
         exec/implement_builtins/export//export_equal.c\
 
 main = main/main.c

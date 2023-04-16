@@ -6,11 +6,23 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 05:48:10 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 09:08:17 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
+
+int	len_comparison(char *s1, char *s2)
+{
+	int	index1;
+	int	index2;
+
+	index1 = get_name_index(s1);
+	index2 = get_name_index (s2);
+	if ((index2 - index1) == 0 && !ft_strncmp(s1, s2, index2))
+		return (1);
+	return (0);
+}
 
 void	sorted_list(char **export, int len)
 {
