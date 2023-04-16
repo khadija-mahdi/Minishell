@@ -52,6 +52,15 @@ int	toggle_flag(char c, int *qute_flag, int *index)
 	return (0);
 }
 
+char	*return_function(int name_len, char *name, char *dst)
+{
+	if (!name_len)
+		return (ft_strdup("$"));
+	if (name == NULL)
+		return (dst);
+	return (NULL);
+}
+
 char	*copy_variable_value(char *dst, char *src, int *index)
 {
 	char	*value;
@@ -64,15 +73,13 @@ char	*copy_variable_value(char *dst, char *src, int *index)
 	if (src[++*(index)] == '?')
 		value = ft_itoa(get_exit_status());
 	else if (src[*index] == '$')
-		return ft_str_append(dst, src[(*index)]);
+		return (ft_str_append(dst, src[(*index)]));
 	else
 	{
 		name = get_env_name(&src[*index], &name_len);
 		(*index) += name_len - 1;
-		if(!name_len)
-			return (ft_strdup("$"));
-		if (name == NULL)
-			return (dst);
+		if (!name_len || name == NULL)
+			return (return_function(name_len, name, dst));
 		value = ft_getenv(name);
 		free(name);
 		if (value == NULL)

@@ -28,7 +28,6 @@ static size_t	cont_strings(const char *s, char *set)
 	i = 0;
 	while (s[i])
 	{
-		/* if (s[i] != c) */
 		if (!ft_strchr(set, s[i]))
 			counter++;
 		while (s[i] && !ft_strchr(set, s[i]))
@@ -46,7 +45,7 @@ static size_t	cont_strings(const char *s, char *set)
  *@return size_t {size_t} how many litter in str
  starting from an adreess tell finding the sip
  */
-static size_t	count_litters(const char *s, char * c)
+static size_t	count_litters(const char *s, char *c)
 {
 	int	i;
 
