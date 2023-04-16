@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/16 00:40:41 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 01:07:54 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ char	*splite_env_val(char *line, char *new_str, t_node *node, int *index)
 					ft_strdup(splited_env_val[j])));
 			free(new_str);
 			new_str = NULL;
-			free(splited_env_val[j]);
 			j++;
 		}
 		new_str = mini_strjoin(new_str, ft_strdup(splited_env_val[j]));
-		free(splited_env_val);
+		free_list(splited_env_val);
 	}
+	free(env_value);
 	return (new_str);
 }
 
@@ -61,6 +61,9 @@ void	parse(char *line, t_list **list)
 		else
 			get_input_value(&line[i], node, &i, 0);
 	}
+	node->command = lower_case(node->command);
+	if (node->arguments)
+		node->arguments[0] = lower_case(node->arguments[0]);
 	ft_lstadd_back(list, ft_lstnew(node));
 	if (line[i] && line[i] == '|')
 		parse(&line[++i], list);
@@ -82,14 +85,7 @@ void	run_commands(t_list *list)
 		exec(list);
 	else
 		write(1, "\n", 1);
-}
-
-void print_env()
-{
-	char **env = get_env(NULL);
-	int i = 0;
-	while(env[i])
-		printf("%s\n", env[i++]);
+	system ("leaks minishell");
 }
 
 void	tty(void)
@@ -116,6 +112,7 @@ void	tty(void)
 		add_history(line);
 		parse(line, &list);
 		run_commands(list);
+		system ("leaks minishell");
 		ft_lstclear(&list, clear_node); // sgv is cd ../..
 		free(line);
 	}

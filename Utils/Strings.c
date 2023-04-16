@@ -63,3 +63,18 @@ char	*m_safe_strjoin(char *s1, char *s2, int free_mode)
 		free(s2);
 	return (str);
 }
+
+char	*lower_case(char *command)
+{
+	int	i;
+
+	i = 0;
+	if (!command)
+		return (NULL);
+	while (command[i])
+	{
+		command[i] = ft_tolower(command[i]);
+		i++;
+	}
+	return (command);
+}

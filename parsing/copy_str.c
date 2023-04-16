@@ -85,7 +85,7 @@ char	*copy_string_t_args(char *s, t_node *node, int *index, int mode)
 	{
 		if (toggle_flag(s[*index], &qute_flag, index))
 		{
-			if(qute_flag != 0 && mode == 1)
+			if (qute_flag != 0 && mode == 1)
 				new_str = ft_str_append(new_str, 0);
 			continue ;
 		}
@@ -105,7 +105,6 @@ char	*copy_string_t_args(char *s, t_node *node, int *index, int mode)
 					if (size(new_str_spltd) > 1 && qute_flag == 0)
 						return (on_error_clear(new_str_spltd, env_value,
 								new_str, index));
-
 					new_str = m_safe_strjoin(new_str, env_value, 3);
 					free_list(new_str_spltd);
 				}

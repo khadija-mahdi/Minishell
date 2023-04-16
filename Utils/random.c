@@ -33,6 +33,7 @@ char	*random_string(int len)
 			str[index++] = buff[0];
 		i++;
 	}
+	free(buff);
 	str[index] = 0;
 	return (str);
 }

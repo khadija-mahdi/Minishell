@@ -60,8 +60,7 @@ char	*open_tmp_file(int *fd)
 	char	*file_name;
 
 	random = random_string(10);
-	file_name = ft_strjoin("/tmp/", random);
-	free(random);
+	file_name = m_safe_strjoin("/tmp/", random, 2);
 	*fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0664);
 	return (file_name);
 }
@@ -94,9 +93,11 @@ int	here_doc(int flag, char *limiter)
 	if (WEXITSTATUS(status) != 0 && WEXITSTATUS(status) == M_SIG_INT)
 	{
 		set_interrupted(1);
+		free(file_name);
 		return (NO_FILE);
 	}
 	free(limiter);
 	fd = open(file_name, O_RDONLY);
+	free(file_name);
 	return (fd);
 }
