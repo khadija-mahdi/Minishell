@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 07:51:03 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 02:32:43 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ char	**necessary_values(char **env, int is_env)
 	i = -1;
 	while (env[++i])
 		export[i] = ft_strdup(env[i]);
-	export[i++] = shell_level(env);
+	export[i++] = shell_level();
 	export[i++] = m_safe_strjoin("PWD=", n_pwd, 2);
 	if (is_env == 0)
 		export[i++] = ft_strdup("OLDPWD");
 	export[i] = NULL;
+	free_list (get_env(NULL));
 	return (export);
 }
 

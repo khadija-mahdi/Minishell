@@ -6,13 +6,13 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 01:05:09 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:40:24 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
 
-char	*shell_level(char **env)
+char	*shell_level(void)
 {
 	char		*lvl_sh;
 	char		*str;
@@ -54,10 +54,13 @@ void	add_new_env(char **env, char **old_env, char **arguments)
 	{
 		if (arguments[k][0] == '#')
 			break ;
-		if (is_equal_plus_str(arguments[k]) == 1)
+		if ((!ft_isalpha(arguments[k][0]) || is_forbidden_char(arguments[k])
+			|| !is_equal_plus(arguments[k])))
+			k++;
+		else if (is_equal_plus_str(arguments[k]) == 1)
 			env[i++] = ft_strdup(arguments[k++]);
 		else if (is_equal_plus_str(arguments[k]) == 2)
-			env[i++] = ft_strdup(add_plus_string(arguments[k++], 1));
+			env[i++] = add_plus_string(arguments[k++], 1);
 		else
 			k++;
 	}
@@ -67,7 +70,8 @@ void	add_new_env(char **env, char **old_env, char **arguments)
 char	**get_new_env(char **old_env, char **arguments)
 {
 	char	**env;
-
+	char **clean_env;
+	
 	env = NULL;
 	if (old_env != NULL)
 	{
@@ -76,9 +80,9 @@ char	**get_new_env(char **old_env, char **arguments)
 			exit(1);
 		add_new_env(env, old_env, arguments);
 	}
-	env = reset_forbidden_env(env);
-	env = remove_duplicate(env);
-	return (env);
+	clean_env = remove_duplicate(env);
+	free_list(env);
+	return (clean_env);
 }
 
 int	get_name_index(char *s1)
@@ -96,3 +100,4 @@ int	get_name_index(char *s1)
 }
 
 // forbidden function a khadija :();;;!!!!!!!!!!!!!!
+// export a=a a+=a +AASDAS a=====

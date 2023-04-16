@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:24 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:31:21 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 04:33:24 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,17 @@ void	builtins(t_node *node)
 void	child_builtins(t_node *node)
 {
 	char	**export;
-	char	**new_args;
 	char	**env;
 
-	new_args = get_new_arguments(node->arguments);
 	export = get_export(NULL);
 	env = get_env(NULL);
 	if (!ft_strcmp(node->command, "export")
 		|| !ft_strcmp(node->command, "EXPORT"))
-		print_export(export, new_args);
+		print_export(export, node->arguments);
 	if (!ft_strcmp(node->command, "echo") || !ft_strcmp(node->command, "ECHO"))
 		echo_command(node);
 	if (!ft_strcmp(node->command, "env") || !ft_strcmp(node->command, "ENV"))
 		env_command(node, env);
 	if (!ft_strcmp(node->command, "pwd") || !ft_strcmp(node->command, "PWD"))
 		pwd_command();
-	free_list (new_args);
 }

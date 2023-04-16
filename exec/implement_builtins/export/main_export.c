@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 02:13:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:49:08 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:32:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	add_or_replace(char **arguments, char **new_arg, int j, int i)
 		else if (len_comparison(arguments[i], new_arg[j])
 			&& is_equal_plus_str(arguments[i]) == 1)
 		{
+			if (new_arg[j])
+				free(new_arg[j]);
 			new_arg[j] = ft_strdup(arguments[i]);
 			been_added = 1;
 		}
@@ -90,25 +92,30 @@ void	export_command(t_node *node, char	**old_export, char	**old_env)
 {
 	char	**export;
 	char	**env;
+	char	**tmp;
 	char	**new_args;
-	char	**new;
 
 	export = NULL;
 	env = NULL;
 	new_args = get_new_arguments(node->arguments);
+	printf_arg(new_args);
 	if (new_args)
 	{
 		env = reset(old_env, new_args);
 		export = reset(old_export, new_args);
 	}
-	underscore_export(export);
-	export = get_new_export(export, new_args);
+	tmp = get_new_export(export, new_args);
+	free_list(export);
+	export = tmp;
 	sorted_list(export, size(export));
 	free_list(get_export(NULL));
 	get_export(export);
-	env = get_new_env(env, new_args);
+	tmp = get_new_env(env, new_args);
+	free_list(env);
+	env = tmp;
+	free_list(new_args);
+	free_list(get_env(NULL));
 	get_env(env);
 	free_list (env);
 	free_list(export);
-	free_list(new_args);
 }

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:25:36 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 01:00:56 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:37:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*add_quotes(char *str, int is_env)
 	return (new_string);
 }
 
-char	*the_added_string(char	*n_exp, char **exp, char *n_str, int start)
+char	*the_added_string(char	*n_exp,char *n_str, int start)
 {
 	char	*n_string;
 	int		len;
@@ -53,7 +53,7 @@ char	*the_added_string(char	*n_exp, char **exp, char *n_str, int start)
 	if (!n_string)
 		exit(1);
 	j = 0;
-	while (exp && n_exp && n_exp[j])
+	while (n_exp && n_exp && n_exp[j])
 		j++;
 	k = -1;
 	while (++k < j)
@@ -76,9 +76,7 @@ char	*exist_string(char **export, char *new_str)
 	while (export && export[i])
 	{
 		if (!ft_strncmp(export[i], new_str, start))
-		{
 			new_export = ft_strdup(export[i]);
-		}
 		i++;
 	}
 	return (new_export);
@@ -101,7 +99,10 @@ char	*add_plus_string(char *n_str, int is_export)
 		export = get_env (NULL);
 	new_export = exist_string(export, new_str);
 	if (new_export)
-		new_string = the_added_string(new_export, export, new_str, start);
+	{
+		new_string = the_added_string(new_export, new_str, start);
+		free (new_str);
+	}
 	else
 		new_string = new_str;
 	free (new_export);

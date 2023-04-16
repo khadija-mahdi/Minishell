@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 05:13:18 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:03:23 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:04:15 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ char	**reset_forbidden_env(char **name)
 	{
 		if ((!ft_isalpha(*name[0]) || is_forbidden_char(*name)
 				|| !is_equal_plus(*name)))
-		{
-			printf("export: '%s': not a valid identifier\n", *name);
 			remove_env(name);
-		}
 		else
 			name++;
 	}
@@ -64,33 +61,66 @@ int	comparison(char *s1, char *s2)
 
 char	**reset(char **env, char **argument)
 {
-	int		len;
+	char	**new_env;
 	int		i;
-	char	**temp;
+	int		j;
+	int		duplicate;
 
-	temp = env;
-	while (env && *env)
+	i = 0;
+	new_env = NULL;
+	while (env && env[i])
 	{
-		i = 0;
-		while (argument && argument[i])
+        j = i + 1;
+		duplicate= 0;
+		while (env[j])
 		{
-			if (argument[i] && argument[i][0] == '#')
-				break ;
-			len = is_value(argument[i]);
-			if (!ft_strncmp(argument[i], "_=", 2))
-				i++;
-			else if (comparison(argument[i], *env)
+			if (comparison(env[i], env[j])
 				&& is_equal_plus_str(argument[i]) == 1)
-				remove_env(env);
-			else
-				i++;
+			{
+                duplicate = 1;
+				break ;
+			}
+            j++;
 		}
-		env++;
+		if (!duplicate)
+            new_env = append(new_env, strdup(env[i]));
+        i++;
 	}
-	return (temp);
+	
+	return (new_env);
 }
 
-char	**remove_duplicate(char **export)
+char **remove_duplicate(char **export)
+{
+	char	**new_export;
+	int		i;
+	int		j;
+	int		duplicate;
+
+	i = 0;
+	new_export = NULL;
+	while (export && export[i])
+	{
+        j = i + 1;
+		duplicate= 0;
+		while (export && export[j])
+		{
+			if (comparison(export[i], export[j]))
+			{
+                duplicate = 1;
+				break ;
+			}
+            j++;
+		}
+		if (!duplicate)
+            new_export = append(new_export, ft_strdup(export[i]));
+        i++;
+	}
+	return (new_export);
+}
+
+
+char	**remove_duplicate_old(char **export)
 {
 	char	**new_export;
 	int		len;

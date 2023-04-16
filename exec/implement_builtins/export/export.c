@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:53:17 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:40:48 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ void	add_new_export(char **export, char **old_export, char **arguments)
 	{
 		if (arguments[j] && arguments[j][0] == '#')
 			break ;
-		if (is_equal_plus_str(arguments[j]) == 2)
-			export[i++] = ft_strdup(add_plus_string(arguments[j], 0));
+		if ((!ft_isalpha(arguments[j][0]) || is_forbidden_char(arguments[j])
+			|| !is_equal_plus(arguments[j])))
+			printf("export: '%s': not a valid identifier\n", arguments[j++]);
+		else if (is_equal_plus_str(arguments[j]) == 2)
+			export[i++] = add_plus_string(arguments[j++], 0);
 		else
-			export[i++] = ft_strdup(arguments[j]);
-		j++;
+			export[i++] = ft_strdup(arguments[j++]);
 	}
 	export[i] = NULL;
 }
@@ -76,6 +78,7 @@ void	add_new_export(char **export, char **old_export, char **arguments)
 char	**get_new_export(char **old_export, char **str)
 {
 	char	**export;
+	char	**clean_ex;
 
 	export = NULL;
 	if (old_export)
@@ -85,7 +88,7 @@ char	**get_new_export(char **old_export, char **str)
 			exit(1);
 		add_new_export(export, old_export, str);
 	}
-	export = reset_forbidden_env(export);
-	export = remove_duplicate(export);
-	return (export);
+	clean_ex = remove_duplicate(export);
+	free_list (export); 
+	return (clean_ex);
 }

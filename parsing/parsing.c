@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/16 01:07:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 05:44:52 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	run_commands(t_list *list)
 		exec(list);
 	else
 		write(1, "\n", 1);
-	system ("leaks minishell");
 }
 
 void	tty(void)
@@ -112,8 +111,8 @@ void	tty(void)
 		add_history(line);
 		parse(line, &list);
 		run_commands(list);
-		system ("leaks minishell");
 		ft_lstclear(&list, clear_node); // sgv is cd ../..
-		free(line);
+		free(lmaine);
+		system ("leaks minishell");
 	}
 }

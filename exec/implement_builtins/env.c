@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 00:48:38 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 02:33:35 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
 char	**update_env(char **env)
 {
 	char	*old_pwd;
-	int		i;
 	char	*pwd;
 	char	*n_pwd;
 	char	**new_env;
