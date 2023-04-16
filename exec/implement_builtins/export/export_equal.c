@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:25:36 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 17:10:01 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 01:00:56 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,24 @@ char	*exist_string(char **export, char *new_str)
 	while (export && export[i])
 	{
 		if (!ft_strncmp(export[i], new_str, start))
+		{
 			new_export = ft_strdup(export[i]);
+		}
 		i++;
 	}
 	return (new_export);
 }
 
-char	*add_plus_string(char *new_str, int is_export)
+char	*add_plus_string(char *n_str, int is_export)
 {
 	int		start;
 	char	**export;
 	char	*new_string;
 	char	*new_export;
+	char	*new_str;
 
 	start = 0;
-	new_str = add_quotes(new_str, 1);
+	new_str = add_quotes(n_str, 1);
 	start = get_start(new_str);
 	if (!is_export)
 		export = get_export(NULL);
@@ -101,5 +104,6 @@ char	*add_plus_string(char *new_str, int is_export)
 		new_string = the_added_string(new_export, export, new_str, start);
 	else
 		new_string = new_str;
+	free (new_export);
 	return (new_string);
 }

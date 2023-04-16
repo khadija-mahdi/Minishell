@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 02:13:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/15 23:42:32 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 00:49:08 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ void	export_command(t_node *node, char	**old_export, char	**old_env)
 	underscore_export(export);
 	export = get_new_export(export, new_args);
 	sorted_list(export, size(export));
-	print_export(export, new_args);
 	free_list(get_export(NULL));
 	get_export(export);
 	env = get_new_env(env, new_args);
 	get_env(env);
+	free_list (env);
 	free_list(export);
 	free_list(new_args);
 }

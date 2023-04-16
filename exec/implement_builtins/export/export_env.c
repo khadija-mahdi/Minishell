@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 00:38:44 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/14 13:11:56 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 01:05:09 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	add_new_env(char **env, char **old_env, char **arguments)
 		if (is_equal_plus_str(arguments[k]) == 1)
 			env[i++] = ft_strdup(arguments[k++]);
 		else if (is_equal_plus_str(arguments[k]) == 2)
-			env[i] = ft_strdup(add_plus_string(arguments[k++], 1));
+			env[i++] = ft_strdup(add_plus_string(arguments[k++], 1));
 		else
 			k++;
 	}
@@ -94,3 +94,5 @@ int	get_name_index(char *s1)
 	}
 	return (-1);
 }
+
+// forbidden function a khadija :();;;!!!!!!!!!!!!!!

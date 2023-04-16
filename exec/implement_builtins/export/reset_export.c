@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 05:13:18 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/15 09:52:14 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 00:03:23 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ char	**reset(char **env, char **argument)
 				i++;
 			else if (comparison(argument[i], *env)
 				&& is_equal_plus_str(argument[i]) == 1)
-			{
-				printf("%s\n", *env);
 				remove_env(env);
-			}
 			else
 				i++;
 		}

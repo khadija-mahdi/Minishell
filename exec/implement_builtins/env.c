@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/15 23:42:54 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/16 00:48:38 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,28 @@ int	is_high_shlvl(char **env)
 	return (len);
 }
 
+void	change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], "PWD", 2))
+		{
+			new_env[i] = ft_strdup(pwd);
+			if (pwd)
+				free(pwd);
+		}
+		else
+			new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	new_env[i] = ft_strdup(old_pwd);
+	new_env[++i] = NULL;
+	free(old_pwd);
+}
+
 char	**update_env(char **env)
 {
 	char	*old_pwd;
@@ -57,22 +79,7 @@ char	**update_env(char **env)
 		new_env = malloc((size(env) + 2) * sizeof(char *));
 		if (!new_env)
 			exit(1);
-		i = 0;
-		while (env[i])
-		{
-			if (!ft_strncmp(env[i], "PWD", 2))
-			{
-				new_env[i] = ft_strdup(pwd);
-				if (pwd)
-					free(pwd);
-			}
-			else
-				new_env[i] = ft_strdup(env[i]);
-			i++;
-		}
-		new_env[i] = ft_strdup(old_pwd);
-		new_env[++i] = NULL;
-		free(old_pwd);
+		change_old_pwd(env, new_env, pwd, old_pwd);
 	}
 	free(n_pwd);
 	return (new_env);
