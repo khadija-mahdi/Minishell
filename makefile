@@ -48,11 +48,9 @@ main = main/main.c
 
 # Directories
 OBJ_DIR := objects
-
 #object files
 main_obj                := $(patsubst %.c,$(OBJ_DIR)/%.o,$(main))
-obj                             := $(patsubst %.c,$(OBJ_DIR)/%.o,$(src))
-
+obj                     := $(patsubst %.c,$(OBJ_DIR)/%.o,$(src))
 #NAMES
 NAME :=  minishell
 USER := $(USER)
@@ -61,20 +59,12 @@ CFLAGS          := -Wall -Werror -Wextra
 incldlib        := -I/Users/${USER}/homebrew/opt/readline/include
 libreadline     := -lreadline -L/Users/${USER}/homebrew/opt/readline/lib
 libft           := libft/libft.a
-DUBGGER         :=  -fsanitize=address -g3
-PROGRESS        := 0
-newer_file      := $(SRCS_FILES)
-TOTAL           := $(words $(newer_file))
-
-all: updated_files CALC_TOTAL $(NAME)
 
 all:$(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(cc) ${CFLAGS} -c $< -o $@
-
-all: $(NAME)
 
 $(NAME) : $(main_obj)  $(obj) $(libft)
 	@ echo "Compiling MINISHELL "

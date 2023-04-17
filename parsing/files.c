@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:34:35 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/15 23:47:28 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:29:05 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	open_file(char *file_name, int open_flag, int input)
 	return (fd);
 }
 
-int	open_input_file(char *line, int *i, int output)
+int	open_input_file(char *line, int *i, int output, int input)
 {
 	int		input_file;
 	char	*file_name;
 	int		open_flag;
 
 	input_file = NONE;
-	close(output);
+	close(input);
 	if (line[(*i) + 1] == '<')
 	{
 		(*i) += 2;
@@ -78,7 +78,7 @@ int	open_input_file(char *line, int *i, int output)
 	return (input_file);
 }
 
-int	open_output_file(char *line, int *i, int input)
+int	open_output_file(char *line, int *i, int input, int output)
 {
 	int		opne_flag;
 	int		output_file;
@@ -86,7 +86,7 @@ int	open_output_file(char *line, int *i, int input)
 
 	opne_flag = 0;
 	output_file = NONE;
-	close(input);
+	close(output);
 	if (line[(*i) + 1] == '>')
 	{
 		(*i)++;

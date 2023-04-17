@@ -6,26 +6,12 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 18:30:45 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/14 07:38:49 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:51:29 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "syntax.h"
-
-void	syntax_err_print(char *msg, char near, int status)
-{
-	if(near != 0)
-	{
-		msg = ft_str_append(msg, '`');
-		msg = ft_str_append(msg, near);
-		msg = ft_str_append(msg, '`');
-	}
-	msg = ft_str_append(msg, '\n');
-	write(2, msg, ft_strlen(msg));
-	set_exit_status(status);
-	free(msg);
-}
 
 int	handle_syntax(char *line)
 {
@@ -38,10 +24,10 @@ int	handle_syntax(char *line)
 	{
 		if (near == '\n' || near == 0)
 			syntax_err_print(ft_strdup("-bash: syntax error near "
-				" unexpected token `newline' "), 0, 258);
+					" unexpected token `newline' "), 0, 258);
 		else
 			syntax_err_print(ft_strdup("-bash: syntax error near "
-				" unexpected token "), near, 258);
+					" unexpected token "), near, 258);
 		add_history(line);
 		manage_here_doc(line, pos);
 		return (1);

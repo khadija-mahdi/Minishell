@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:21:33 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/16 04:35:16 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:33:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	set_exit_status(1);
 }
 
 void	handle_sigint_n_chld(int sig)

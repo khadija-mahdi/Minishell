@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 10:31:09 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 10:31:19 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:52:59 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void	set_exit_status(int status_val);
 void	set_interrupted(int value);
 int		is_interrupted(void);
 char	*lower_case(char *command);
+void	toggle_quteflag(char c, int *qute_flag);
 #endif

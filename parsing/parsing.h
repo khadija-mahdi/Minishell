@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:28:00 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/17 00:36:46 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:53:25 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char		*update_command(char *command);
 int			handle_syntax(char *line);
 int			is_child_builtins(char *s, char *arg);
 int			is_builtin(char *s, char *arg);
-int			open_input_file(char *line, int *i, int input);
-int			open_output_file(char *line, int *i, int output);
+int			open_input_file(char *line, int *i, int output, int input);
+int			open_output_file(char *line, int *i, int input, int output);
 void		toggle_quteflag(char c, int *qute_flag);
 int			toggle_flag(char c, int *qute_flag, int *index);
 char		*ft_str_append(char *s, char c);
@@ -67,5 +67,5 @@ void		run_mini(char *line, t_list **list);
 void		clear_resources(char *line, t_list **list);
 void		run_commands(t_list *list);
 int			exit_if_null(char *line, t_list **list);
-void		syntax_err_print(char *msg,char near, int status);
+void		syntax_err_print(char *msg, char near, int status);
 #endif

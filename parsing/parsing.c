@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/17 01:31:13 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:53:40 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	parse(char *line, t_list **list)
 	while (line[i] && line[i] != '|')
 	{
 		if (is_n_escaped(line, '<', i))
-			node->input_file = open_input_file(line, &i, node->output_file);
+			node->input_file = open_input_file(line, &i,
+					node->output_file, node->input_file);
 		else if (is_n_escaped(line, '>', i))
-			node->output_file = open_output_file(line, &i, node->input_file);
+			node->output_file = open_output_file(line, &i,
+					node->input_file, node->output_file);
 		else
 			get_input_value(&line[i], node, &i, 0);
 	}
