@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 02:13:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 09:08:03 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:04:54 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ char	*join_values(char *s1, char *s2)
 	j = get_start(s2);
 	while (s2 && s2[j])
 		re = ft_str_append(re, s2[j++]);
-	re = ft_strjoin(ft_substr(s1, 0, get_start(s1)), re);
+	re = m_safe_strjoin(ft_substr(s1, 0, get_start(s1)), re, 3);
+	free(s1);
 	return (re);
 }
 
@@ -84,32 +85,25 @@ void	export_environment(char **export, char **new_args)
 	free_list(export);
 	export = tmp;
 	sorted_list(export, size(export));
-	free_list(get_export(NULL));
 	get_export(export);
 	free_list(export);
 }
 
-void	export_command(t_node *node, char	**old_export, char	**old_env)
+void	export_command(t_node *node)
 {
 	char	**export;
 	char	**env;
 	char	**tmp;
 	char	**new_args;
 
-	export = NULL;
-	env = NULL;
+	export = get_export(NULL);
+	env = get_env(NULL);
 	new_args = get_new_arguments(node->arguments);
-	if (new_args)
-	{
-		env = reset(old_env, new_args);
-		export = reset(old_export, new_args);
-	}
 	export_environment(export, new_args);
 	tmp = get_new_env(env, new_args);
 	free_list(env);
 	env = tmp;
 	free_list(new_args);
-	free_list(get_env(NULL));
 	get_env(env);
 	free_list (env);
 }

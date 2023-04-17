@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:24 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 10:36:30 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:01:03 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	builtins(t_node *node)
 		cd_command(node);
 	if (!ft_strcmp(node->command, "export")
 		|| !ft_strcmp(node->command, "EXPORT"))
-		export_command(node, export, env);
+		export_command(node);
 	if (!ft_strcmp(node->command, "unset")
 		|| !ft_strcmp(node->command, "UNSET"))
 		unset_command(node, env);

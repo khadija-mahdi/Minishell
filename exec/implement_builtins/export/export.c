@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 22:31:49 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 10:38:24 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:11:57 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,13 @@ void	add_new_export(char **export, char **old_export, char **arguments)
 	while (old_export && old_export[++i])
 		export[i] = ft_strdup(old_export[i]);
 	j = 1;
-	while (arguments && arguments[j] && !string_exists(old_export,
-			size(old_export), arguments[j], ft_strlen(arguments[j])))
+	while (arguments && arguments[j])
 	{
 		if (arguments[j] && arguments[j][0] == '#')
 			break ;
 		if ((!ft_isalpha(arguments[j][0]) || is_forbidden_char(arguments[j])
 			|| !is_equal_plus(arguments[j])))
-			printf("export: '%s': not a valid identifier\n", arguments[j++]);
+			j++;
 		else if (is_equal_plus_str(arguments[j]) == 2)
 			export[i++] = add_plus_string(arguments[j++], 0);
 		else
@@ -91,7 +90,16 @@ char	**get_new_export(char **old_export, char **str)
 {
 	char	**export;
 	char	**clean_ex;
+	int		i;
 
+	i = 0;
+	while (str && str[i])
+	{
+		if ((!ft_isalpha(str[i][0]) || is_forbidden_char(str[i])
+			|| !is_equal_plus(str[i])))
+			printf("export: '%s': not a valid identifier\n", str[i]);
+		i++;
+	}
 	export = NULL;
 	if (old_export)
 	{

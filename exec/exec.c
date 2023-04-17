@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 16:53:28 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 02:32:43 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 02:19:03 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,5 @@ void	exec(t_list *list)
 		return ;
 	env = get_env(NULL);
 	num_commands = ft_lstsize(list);
-	if (num_commands >= 709)
-	{
-		printf("fork: Resource temporarily unavailable\n");
-		return ;
-	}
 	multiple_pipes(node, list, num_commands);
 }

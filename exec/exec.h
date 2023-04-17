@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:11:06 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/17 02:08:34 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:00:58 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	unset(char **str, char **env, int i);
 void	cd_command(t_node *node);
 void	exec(t_list *list);
 void	pwd_command(void);
-void	export_command(t_node *node, char	**old_export, char	**old_env);
+void	export_command(t_node *node);
 int		f_isdigit(int c);
 void	builtins(t_node *node);
 char	*get_paths(char **env, char *command);

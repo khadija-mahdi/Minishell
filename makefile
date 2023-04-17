@@ -46,57 +46,33 @@ src = parsing/parsing.c\
 
 main = main/main.c
 
-B_NAME = bonushell
-Shell_src = Shell/main.c\
-        Shell/tree.c\
-        Shell/exec/exec.c
-
 # Directories
 OBJ_DIR := objects
 
 #object files
 main_obj                := $(patsubst %.c,$(OBJ_DIR)/%.o,$(main))
 obj                             := $(patsubst %.c,$(OBJ_DIR)/%.o,$(src))
-PROGRESSBINARY  := $(OBJ_DIR)/progress
-Shell_obj               := ${Shell_src:.c=.o}
+
 #NAMES
-Bonus = bonus
-NAME =  minishell
+NAME :=  minishell
 USER := $(USER)
 cc = cc
-files = $(shell git diff --name-only HEAD)
-
 CFLAGS          := -Wall -Werror -Wextra
 incldlib        := -I/Users/${USER}/homebrew/opt/readline/include
 libreadline     := -lreadline -L/Users/${USER}/homebrew/opt/readline/lib
 libft           := libft/libft.a
-# DUBGGER         :=  -fsanitize=address -g3
-PROGRESS        := 0
-newer_file      := $(SRCS_FILES)
-TOTAL           := $(words $(newer_file))
 
-all: updated_files CALC_TOTAL $(NAME)
-
-updated_files :
-	$(eval newer_file = $(shell (find . -name "*.c" -not -path "./libft/*"  -type f -newer $(NAME)) 2>/dev/null || find . -name "*.c" -type f -not -path "./libft/*"))
-
-CALC_TOTAL : $(updated_files)
-	$(eval TOTAL = $(shell expr $(words $(newer_file)) - 1))
-
-$(PROGRESSBINARY) :
-	@$(CC) tools/progress.c -o $(PROGRESSBINARY)
+all:$(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(cc) ${CFLAGS} -c $< -o $@
-	@$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
-	@./$(PROGRESSBINARY) $(PROGRESS) $(TOTAL)
 
 all: $(NAME)
 
-$(NAME) : $(PROGRESSBINARY)  $(main_obj)  $(obj) $(libft)
+$(NAME) : $(main_obj)  $(obj) $(libft)
 	@ echo "Compiling MINISHELL "
-	@ ${cc} $(main_obj) $(obj) $(libft) ${CFLAGS} $(libreadline) $(DUBGGER) -o $(NAME)
+	@ ${cc} $(CFLAGS) $(main_obj) $(obj) $(libft) ${CFLAGS} $(libreadline) $(DUBGGER) -o $(NAME)
 	@ echo "\tDone.\n"
 
 $(libft):
@@ -117,7 +93,4 @@ fclean : clean clean_libft
 
 re : fclean all
 
-commit_and_push: fclean
-	git add . && git commit -m "changes $(files)" && git push;
-
-.PHONY : clean flcean updated_files CALC_TOTAL commit_and_push clean_libft
+.PHONY : clean flcean   clean_libft

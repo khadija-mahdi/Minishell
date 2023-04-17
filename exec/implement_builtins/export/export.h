@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 00:20:37 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 09:07:50 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:01:07 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	add_new_env(char **env, char **old_env, char **arguments);
 char	**get_new_env(char **old_env, char **arguments);
-void	export_command(t_node *node, char **old_export, char	**old_env);
+void	export_command(t_node *node);
 char	*add_quotes(char *str, int is_env);
 char	*add_plus_string(char *new_str, int is_export);
 int		is_value(char *argument);

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/17 02:08:44 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:14:27 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_commands(char *path, t_node *node, char **env)
 	}
 	else
 		execve(path, node->arguments, env);
-	if (!ft_strcmp(node->command, "."))
+	if (!is_equal(node->command, "."))
 	{
 		write(2, ".: filename argument required \n"
 			".: usage: . filename [arguments]\n", 65);
