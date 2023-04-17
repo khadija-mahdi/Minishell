@@ -13,6 +13,20 @@
 #include "../../includes/minishell.h"
 #include "syntax.h"
 
+void	syntax_err_print(char *msg, char near, int status)
+{
+	if(near != 0)
+	{
+		msg = ft_str_append(msg, '`');
+		msg = ft_str_append(msg, near);
+		msg = ft_str_append(msg, '`');
+	}
+	msg = ft_str_append(msg, '\n');
+	write(2, msg, ft_strlen(msg));
+	set_exit_status(status);
+	free(msg);
+}
+
 int	handle_syntax(char *line)
 {
 	char	near;
@@ -23,11 +37,11 @@ int	handle_syntax(char *line)
 	if (near != -1)
 	{
 		if (near == '\n' || near == 0)
-			ft_printf(RED "-bash: syntax error near "
-				" unexpected token `newline' \n" RESET);
+			syntax_err_print(ft_strdup("-bash: syntax error near "
+				" unexpected token `newline' "), 0, 258);
 		else
-			ft_printf(RED "-bash: syntax error near "
-				" unexpected token `%c' \n" RESET, near);
+			syntax_err_print(ft_strdup("-bash: syntax error near "
+				" unexpected token "), near, 258);
 		add_history(line);
 		manage_here_doc(line, pos);
 		return (1);

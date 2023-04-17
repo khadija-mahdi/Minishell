@@ -70,7 +70,7 @@ CFLAGS          := -Wall -Werror -Wextra
 incldlib        := -I/Users/${USER}/homebrew/opt/readline/include
 libreadline     := -lreadline -L/Users/${USER}/homebrew/opt/readline/lib
 libft           := libft/libft.a
-# DUBGGER         :=  -fsanitize=address -g3
+DUBGGER         :=  -fsanitize=address -g3
 PROGRESS        := 0
 newer_file      := $(SRCS_FILES)
 TOTAL           := $(words $(newer_file))

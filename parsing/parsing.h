@@ -67,4 +67,5 @@ void		run_mini(char *line, t_list **list);
 void		clear_resources(char *line, t_list **list);
 void		run_commands(t_list *list);
 int			exit_if_null(char *line, t_list **list);
+void		syntax_err_print(char *msg,char near, int status);
 #endif
