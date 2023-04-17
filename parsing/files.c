@@ -38,7 +38,7 @@ int	open_file(char *file_name, int open_flag, int input)
 	if (file_name == NULL)
 	{
 		fd = ERROR;
-		printf(RED "ambiguous redirect\n" RESET);
+		syntax_err_print(ft_strdup("ambiguous redirect "), 0, 1);
 	}
 	else if (input != ERROR && input != NO_FILE)
 	{
@@ -56,6 +56,7 @@ int	open_input_file(char *line, int *i, int output)
 	int		open_flag;
 
 	input_file = NONE;
+	close(output);
 	if (line[(*i) + 1] == '<')
 	{
 		(*i) += 2;
@@ -85,6 +86,7 @@ int	open_output_file(char *line, int *i, int input)
 
 	opne_flag = 0;
 	output_file = NONE;
+	close(input);
 	if (line[(*i) + 1] == '>')
 	{
 		(*i)++;
