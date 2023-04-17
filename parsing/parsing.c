@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:32:28 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/16 10:35:56 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 01:31:13 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ char	*splite_env_val(char *line, char *new_str, t_node *node, int *index)
 		max = size(splited_env_val);
 		while (j < max - 1)
 		{
-			add_arg_t_node(node, mini_strjoin(new_str,
-					ft_strdup(splited_env_val[j])));
+			add_arg_t_node(node, m_safe_strjoin(new_str,
+					ft_strdup(splited_env_val[j]), 3));
 			free(new_str);
 			new_str = NULL;
 			j++;
 		}
-		new_str = mini_strjoin(new_str, ft_strdup(splited_env_val[j]));
+		new_str = m_safe_strjoin(new_str, ft_strdup(splited_env_val[j]), 3);
 		free_list(splited_env_val);
+		free(env_value);
 	}
-	free(env_value);
 	return (new_str);
 }
 
@@ -66,22 +66,15 @@ void	parse(char *line, t_list **list)
 		parse(&line[++i], list);
 }
 
-int	exit_if_null(char *line)
+int	exit_if_null(char *line, t_list **list)
 {
 	if (!line)
 	{
 		printf("exit\n");
+		clear_resources(line, list);
 		return (1);
 	}
 	return (0);
-}
-
-void	run_commands(t_list *list)
-{
-	if (!is_interrupted())
-		exec(list);
-	else
-		write(1, "\n", 1);
 }
 
 void	tty(void)
@@ -98,17 +91,16 @@ void	tty(void)
 		line = readline(default_prompt);
 		free(default_prompt);
 		set_interrupted(0);
-		if (exit_if_null(line))
+		if (exit_if_null(line, &list))
 			break ;
 		if (handle_syntax(line))
+		{
+			clear_resources(line, &list);
 			continue ;
+		}
 		line = get_full_line(line);
-		if (exit_if_null(line))
+		if (exit_if_null(line, &list))
 			break ;
-		add_history(line);
-		parse(line, &list);
-		run_commands(list);
-		ft_lstclear(&list, clear_node);
-		free(line);
+		run_mini(line, &list);
 	}
 }

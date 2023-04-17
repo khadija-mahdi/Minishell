@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:28:00 by aaitouna          #+#    #+#             */
-/*   Updated: 2023/04/13 13:39:20 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 00:36:46 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char		*get_input_value(char *s, t_node *node, int *index, int mode);
 char		*copy_string_t_args(char *s, t_node *node, int *index, int mode);
 int			spaces_count(char *s);
 size_t		string_list_len(char **list);
-int			exit_if_null(char *line);
 char		*open_tmp_file(int *fd);
 char		**split_by_set(char const *s, char *set);
 char		*return_value(int mode, t_node *node, char *new_str);
@@ -64,4 +63,8 @@ int			on_error_clear(t_cp_flags *cp_flags, char *env_value, char *new_str,
 				int *index);
 void		reset_qute_flag(t_cp_flags *cp_flags, char *s);
 int			return_fd(char *file_name);
+void		run_mini(char *line, t_list **list);
+void		clear_resources(char *line, t_list **list);
+void		run_commands(t_list *list);
+int			exit_if_null(char *line, t_list **list);
 #endif

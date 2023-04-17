@@ -14,6 +14,7 @@ src = parsing/parsing.c\
         parsing/paths.c \
         parsing/Signals.c \
         parsing/print.c \
+        parsing/parsing_helper.c \
         Utils/equals.c\
         Utils/random.c\
         Utils/int_utils.c\
@@ -65,7 +66,7 @@ USER := $(USER)
 cc = cc
 files = $(shell git diff --name-only HEAD)
 
-#CFLAGS          := -Wall -Werror -Wextra
+CFLAGS          := -Wall -Werror -Wextra
 incldlib        := -I/Users/${USER}/homebrew/opt/readline/include
 libreadline     := -lreadline -L/Users/${USER}/homebrew/opt/readline/lib
 libft           := libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:45:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 09:00:57 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 00:01:49 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	cd_command(t_node *node)
 {
 	if (!node->arguments[1] && !check_home())
 		printf("cd : HOME not set\n");
-	else if (!node->arguments[1] || !strcmp(node->arguments[1], "~"))
+	else if (!node->arguments[1] || !ft_strcmp(node->arguments[1], "~"))
 		chdir(getenv("HOME"));
 	else
 		cd(node);

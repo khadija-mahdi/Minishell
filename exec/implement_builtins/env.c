@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 22:43:41 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 07:39:28 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 00:05:49 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**change_old_pwd(char **env, char **new_env, char *old_pwd, char *pwd)
 	new_env[i] = ft_strdup(old_pwd);
 	new_env[++i] = NULL;
 	free(old_pwd);
+	free_list(env);
 	return (new_env);
 }
 
