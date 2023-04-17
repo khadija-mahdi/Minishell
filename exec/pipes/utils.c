@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:09:53 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/16 11:44:57 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 02:08:57 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,10 @@ void	redirection(t_node *node)
 		if (dup2(node->input_file, 0) < 0)
 			exit_msg("DUP", 1);
 	}
+}
+
+void	costume_err(char *msg, int status)
+{
+	write(2, msg, ft_strlen(msg));
+	exit (status);
 }

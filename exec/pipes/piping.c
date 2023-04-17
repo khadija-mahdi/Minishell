@@ -6,7 +6,7 @@
 /*   By: kmahdi <kmahdi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:49:05 by kmahdi            #+#    #+#             */
-/*   Updated: 2023/04/17 01:55:17 by kmahdi           ###   ########.fr       */
+/*   Updated: 2023/04/17 02:08:44 by kmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,12 @@ void	parent_proccess(int num_commands, int pipes[2], int in)
 
 void	signles_child_command(t_process	*prss, t_node *node, int n_cmd, int *i)
 {
-	if (fork() == 0)
+	pid_t	id;
+
+	id = fork();
+	if (id == -1)
+		costume_err("fork: Resource temporarily unavailable\n", 1);
+	if (id == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
