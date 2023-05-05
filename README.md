@@ -2,9 +2,7 @@
 
 **                    **The objective of this project is for you to create a simple shell !!**
 
-**With Minishell, you'll be able to travel through time and come back to problems people faced**
-
-                                                         **when Windows didn't exist.**
+**With Minishell, you'll be able to travel through time and come back to problems people faced when Windows didn't exist.**
 
 - ***`what is minishell ?`***
     
@@ -824,25 +822,3 @@
                     
             
             ***exit_cammand : —>***
-            
-            - [ ]  exit —>
-                
-                > bash-3.2$ exit
-                exit —> status 0.
-                > 
-            - [ ]  exit nbr —>
-                
-                > bash-3.2$ exit
-                exit —> status nbr .
-                > 
-            - [ ]  exit nbr char …
-                
-                > exit —> do not exit .
-                bash: exit: too many arguments
-                > 
-            - [ ]  exit char nbr
-                
-                > exit
-                bash: exit: l: numeric argument required.                                                                          exit —> 255
-                > 
-            - [ ]  exit char char nbr ..
